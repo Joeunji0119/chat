@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, theme } from 'antd';
+import { Menu, theme } from 'antd';
 import type { MenuProps } from 'antd';
 import {
 	LaptopOutlined,
@@ -8,7 +8,6 @@ import {
 } from '@ant-design/icons';
 
 const Sider = () => {
-	const { Sider } = Layout;
 	const {
 		token: { colorBgContainer },
 	} = theme.useToken();
@@ -35,7 +34,7 @@ const Sider = () => {
 	});
 
 	return (
-		<Sider width={200} style={{ background: colorBgContainer }}>
+		<div style={{ background: colorBgContainer, width: '200px' }}>
 			<Menu
 				mode='inline'
 				defaultSelectedKeys={['1']}
@@ -43,7 +42,7 @@ const Sider = () => {
 				style={{ height: '100%', borderRight: 0 }}
 				items={siderMenu}
 			/>
-		</Sider>
+		</div>
 	);
 };
 

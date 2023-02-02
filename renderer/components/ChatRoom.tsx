@@ -1,6 +1,5 @@
 import React from 'react';
 import { theme } from 'antd';
-import { Content } from 'antd/es/layout/layout';
 
 const ChatRoom = () => {
 	const {
@@ -8,7 +7,7 @@ const ChatRoom = () => {
 	} = theme.useToken();
 	return (
 		<>
-			<Content
+			<div
 				style={{
 					padding: 24,
 					margin: 0,
@@ -16,7 +15,7 @@ const ChatRoom = () => {
 					background: colorBgContainer,
 				}}>
 				Content
-			</Content>
+			</div>
 		</>
 	);
 };

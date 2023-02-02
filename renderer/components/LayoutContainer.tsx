@@ -1,7 +1,7 @@
-import React, { ReactDOM, ReactElement } from 'react';
+import React from 'react';
 import Nav from './common/Nav';
 import Sider from './common/Sider';
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const LayoutContainer = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<>
 			<Nav />
@@ -12,4 +12,4 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 		</>
 	);
 };
-export default Layout;
+export default LayoutContainer;

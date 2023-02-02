@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu } from 'antd';
-import { Header } from 'antd/es/layout/layout';
+// import { Header } from 'antd/es/layout/layout';
 import type { MenuProps } from 'antd';
 
 const Nav = () => {
@@ -9,7 +9,7 @@ const Nav = () => {
 		label: `${key.name}`,
 	}));
 	return (
-		<Header className='header'>
+		<div className='header'>
 			<div className='logo' />
 			<Menu
 				theme='dark'
@@ -17,7 +17,7 @@ const Nav = () => {
 				// defaultSelectedKeys={['2']}
 				items={menu}
 			/>
-		</Header>
+		</div>
 	);
 };
 
