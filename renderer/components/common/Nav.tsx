@@ -1,24 +1,13 @@
 import React from 'react';
 import { Menu } from 'antd';
-// import { Header } from 'antd/es/layout/layout';
 import type { MenuProps } from 'antd';
 
 const Nav = () => {
-	const menu: MenuProps['items'] = NAV_MENU.map(key => ({
-		key: key.id,
-		label: `${key.name}`,
+	const menu: MenuProps['items'] = NAV_MENU.map(({ id, name }) => ({
+		key: id,
+		label: `${name}`,
 	}));
-	return (
-		<div className='header'>
-			<div className='logo' />
-			<Menu
-				theme='dark'
-				mode='horizontal'
-				// defaultSelectedKeys={['2']}
-				items={menu}
-			/>
-		</div>
-	);
+	return <Menu theme='dark' mode='horizontal' items={menu} />;
 };
 
 const NAV_MENU = [
