@@ -1,24 +1,19 @@
 import React from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
+import { Layout } from 'antd';
+import ChatRoom from '../components/ChatRoom';
 
-function Home() {
-  return (
-    <React.Fragment>
-      <Head>
-        <title>Home - Nextron (with-typescript)</title>
-      </Head>
-      <div>
-        <p>
-          ⚡ Electron + Next.js ⚡ -
-          <Link href="/next">
-            <a>Go to next page</a>
-          </Link>
-        </p>
-        <img src="/images/logo.png" />
-      </div>
-    </React.Fragment>
-  );
+const Home = () => {
+	return (
+		<>
+			<Head>
+				<title> Let's Chat 🍒 </title>
+			</Head>
+			<Layout style={{ padding: ' 24px 24px', height: '80vh' }}>
+				<ChatRoom />
+			</Layout>
+		</>
+	);
 };
 
 export default Home;
