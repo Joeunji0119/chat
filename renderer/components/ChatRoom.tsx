@@ -1,15 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { flexCenter } from '../shared/variableStyle';
+import ChattingUserInfo from './ChattingUserInfo';
 import Message from './Message';
 import MessageInput from './MessageInput';
 
 const ChatRoom = () => {
 	return (
 		<section css={layout}>
-			<div css={chatInfo}>chat with eunji</div>
+			<div css={chatInfo}>
+				<div css={chatInfoWith}>Chatting with</div>
+				<ChattingUserInfo />
+				<div css={chatInfoWith}>and 1 others</div>
+			</div>
+
 			<div css={MessageContainer}>
-				<Message />
-				<Message />
 				<Message />
 			</div>
 			<MessageInput />
@@ -23,17 +28,16 @@ interface themeProps {
 
 const layout = (theme: themeProps) => css`
 	height: 85vh;
-	width: 70vw;
+	width: 80vw;
 	margin: 3%;
 	border-radius: 20px;
 	background: ${theme.grey};
 `;
 
 const chatInfo = (theme: themeProps) => css`
+	${flexCenter.flex('row', 'space-evenly', 'center')}
 	height: 8%;
 	background: ${theme.blue};
-	display: flex;
-	align-items: center;
 	padding-left: 5%;
 	border-radius: 20px 20px 0 0;
 `;
@@ -41,6 +45,13 @@ const chatInfo = (theme: themeProps) => css`
 const MessageContainer = css`
 	height: 60vh;
 	padding: 5%;
+	overflow: scroll;
+	${flexCenter.flex('column-reverse', '', '')}
+`;
+
+const chatInfoWith = css`
+	font-size: 20px;
+	font-weight: 500;
 `;
 
 export default ChatRoom;

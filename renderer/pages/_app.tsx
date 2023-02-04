@@ -1,7 +1,8 @@
 import { Global, ThemeProvider } from '@emotion/react';
 import type { AppProps } from 'next/app';
 import LayoutContainer from '../components/LayoutContainer';
-import { global } from '../styles/GlobalStyle';
+import { global } from '../styles/globalStyle';
+
 import theme from '../styles/theme';
 
 export default function App({ Component, pageProps }: AppProps) {

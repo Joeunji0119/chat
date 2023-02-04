@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Button, Input } from 'antd';
+import { flexCenter } from '../shared/variableStyle';
 const { TextArea } = Input;
 
 const MessageInput = () => {
@@ -32,10 +33,8 @@ interface themeProps {
 }
 
 const layout = (theme: themeProps) => css`
+	${flexCenter.flex('row', 'space-evenly', 'center')}
 	height: 20vh;
-	display: flex;
-	justify-content: space-evenly;
-	align-items: center;
 	padding-bottom: 2%;
 	border-top: 2px solid ${theme.grey2};
 `;

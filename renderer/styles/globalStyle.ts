@@ -24,4 +24,17 @@ export const global = css`
 		cursor: pointer;
 		outline: inherit;
 	}
+	input {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		margin: 0;
+		outline: none;
+		border: none;
+		:focus,
+		:active {
+			outline: none;
+			box-shadow: none;
+		}
+	}
 `;
