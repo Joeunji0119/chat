@@ -1,11 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Button, Checkbox, Form, Switch } from 'antd';
-import { useState } from 'react';
-import UserEmail from '../components/authForm/UserEmail';
-import UserName from '../components/authForm/userName';
-import UserPassword from '../components/authForm/UserPassword';
+import { Form } from 'antd';
 import { flexCenter } from '../shared/variableStyle';
+
+import {
+	PageSwitchButton,
+	SummitButton,
+	UserEmail,
+	UserName,
+	UserPassword,
+} from '../components/auth';
+import { useState } from 'react';
 
 const auth = () => {
 	const [pageMode, setPageMode] = useState('SignIn');
@@ -17,11 +22,7 @@ const auth = () => {
 	const onFinishFailed = (errorInfo: any) => {
 		console.log('Failed:', errorInfo);
 	};
-	const isSignIn = (checked: boolean) => {
-		checked ? setPageMode('SignIn') : setPageMode('SignUP');
-	};
 
-	const handleButtonText = pageMode === 'SignIn' ? 'Login' : 'SignUp';
 	return (
 		<>
 			<Form
@@ -34,20 +35,13 @@ const auth = () => {
 				autoComplete='on'
 				size='large'
 				css={authLayout}>
-				<header css={title}>
-					<div>{pageMode}</div>
-					<Switch defaultChecked onChange={isSignIn} />
-				</header>
-				<article css={formContainer}>
-					{pageMode === 'SignUp' && <UserName />}
+				<PageSwitchButton pageMode={pageMode} setPageMode={setPageMode} />
+				<main css={formContainer}>
+					{pageMode === 'SignUP' && <UserName />}
 					<UserEmail />
 					<UserPassword />
-					<Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-						<Button css={authButton} type='primary' htmlType='submit'>
-							{handleButtonText}
-						</Button>
-					</Form.Item>
-				</article>
+					<SummitButton pageMode={pageMode} />
+				</main>
 			</Form>
 		</>
 	);
@@ -67,20 +61,7 @@ const authLayout = (theme: themeProps) => css`
 	border-radius: 8px;
 `;
 
-const title = (theme: themeProps) => css`
-	${flexCenter.flex('row', ' space-evenly', 'center')}
-	height: 15%;
-	padding: 30px 30px 20px 30px;
-	font-size: 40px;
-	font-weight: 700;
-	color: ${theme.blue2};
-`;
-
 const formContainer = css`
 	height: 80%;
 	padding-top: 20%;
-`;
-
-const authButton = css`
-	margin-top: 30%;
 `;

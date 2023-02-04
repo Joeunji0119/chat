@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { Button, Input } from 'antd';
 import { useState } from 'react';
-import { flexCenter } from '../shared/variableStyle';
+import { flexCenter } from '../../shared/variableStyle';
 const { TextArea } = Input;
 
 const MessageInput = () => {
