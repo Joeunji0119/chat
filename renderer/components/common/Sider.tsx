@@ -7,6 +7,7 @@ import {
 	UserOutlined,
 	TeamOutlined,
 } from '@ant-design/icons';
+import { MenuInfo } from 'rc-menu/lib/interface';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -67,18 +68,18 @@ const Sider = () => {
 	} = theme.useToken();
 
 	const siderMenu: MenuItem[] = [
-		getItem('User', '1', <UserOutlined />, convertUserListData(data)),
-		getItem('Team', '2', <TeamOutlined />, [
+		getItem('친구 목록', 'sub1', <UserOutlined />, convertUserListData(data)),
+		getItem('개인 채팅', 'sub2', <TeamOutlined />, [
 			getItem('Team d', '3'),
 			getItem('Team 2', '8'),
 		]),
-		getItem('Teams', 'sub3', <TeamOutlined />, [
+		getItem('단체 채팅', 'sub3', <TeamOutlined />, [
 			getItem('Team e', '7'),
 			getItem('Team w', '9'),
 		]),
 	];
 
-	const handleUser = id => {
+	const handleUser = (id: MenuInfo) => {
 		console.log(id.keyPath);
 	};
 

@@ -5,10 +5,10 @@ const LayoutContainer = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<>
 			<Nav />
-			<div style={{ display: 'flex' }}>
+			<nav style={{ display: 'flex' }}>
 				<Sider />
 				{children}
-			</div>
+			</nav>
 		</>
 	);
 };

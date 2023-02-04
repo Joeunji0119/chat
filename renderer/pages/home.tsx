@@ -8,9 +8,7 @@ const Home = () => {
 			<Head>
 				<title> Let's Chat 🍒 </title>
 			</Head>
-			<div style={{ padding: ' 24px 24px', height: '80vh' }}>
-				<ChatRoom />
-			</div>
+			<ChatRoom />
 		</>
 	);
 };
