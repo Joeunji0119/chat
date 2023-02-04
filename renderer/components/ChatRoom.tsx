@@ -9,7 +9,6 @@ const ChatRoom = () => {
 	return (
 		<section css={layout}>
 			<div css={chatInfo}>
-				<div css={chatInfoWith}>Chatting with</div>
 				<ChattingUserInfo />
 				<div css={chatInfoWith}>and 1 others</div>
 			</div>
@@ -28,30 +27,28 @@ interface themeProps {
 
 const layout = (theme: themeProps) => css`
 	height: 85vh;
-	width: 80vw;
+	width: 70vw;
 	margin: 3%;
 	border-radius: 20px;
 	background: ${theme.grey};
 `;
 
 const chatInfo = (theme: themeProps) => css`
-	${flexCenter.flex('row', 'space-evenly', 'center')}
+	${flexCenter.flex('row', 'flex-start', 'center')}
 	height: 8%;
-	background: ${theme.blue};
 	padding-left: 5%;
-	border-radius: 20px 20px 0 0;
+	border-radius: 8px;
 `;
 
 const MessageContainer = css`
-	height: 60vh;
+	height: 70vh;
 	padding: 5%;
 	overflow: scroll;
 	${flexCenter.flex('column-reverse', '', '')}
 `;
 
 const chatInfoWith = css`
-	font-size: 20px;
-	font-weight: 500;
+	padding-left: 2%;
 `;
 
 export default ChatRoom;

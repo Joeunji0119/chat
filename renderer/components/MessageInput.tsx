@@ -1,28 +1,38 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Button, Input } from 'antd';
+import { useState } from 'react';
 import { flexCenter } from '../shared/variableStyle';
 const { TextArea } = Input;
 
 const MessageInput = () => {
+	const [sendMessage, setSendMessage] = useState('');
 	const onChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
-		console.log('Change:', e.target.value);
+		setSendMessage(e.target.value);
+	};
+	const handleSendMessage = () => {
+		sendMessage === '' ? alert('내용을 입력하세요') : console.log(sendMessage),
+			setSendMessage('');
 	};
 	return (
-		<div css={layout}>
+		<form css={layout}>
 			<TextArea
+				value={sendMessage}
 				css={inputLayout}
 				showCount
-				maxLength={100}
+				maxLength={300}
 				onChange={onChange}
 				placeholder='type Plz :)'
+				allowClear={true}
+				autoSize={{ maxRows: 3 }}
+				onPressEnter={handleSendMessage}
 			/>
 			<Button type='primary' css={button}>
 				보내기
 			</Button>
-		</div>
+		</form>
 	);
 };
 
@@ -33,18 +43,18 @@ interface themeProps {
 }
 
 const layout = (theme: themeProps) => css`
-	${flexCenter.flex('row', 'space-evenly', 'center')}
-	height: 20vh;
+	${flexCenter.flex('row', 'center', 'flex-start')}
+	height: 10vh;
 	padding-bottom: 2%;
-	border-top: 2px solid ${theme.grey2};
 `;
 
 const inputLayout = css`
-	height: 60%;
-	width: 80%;
+	width: 70%;
+	resize: none;
 `;
 
 const button = css`
-	height: 10vh;
-	width: 10%;
+	max-width: 80px;
+	margin-left: 2%;
+	padding-top: 2px;
 `;

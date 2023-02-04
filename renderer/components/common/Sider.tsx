@@ -20,11 +20,16 @@ type getItemProp = {
 	): MenuItem;
 };
 
-function convertUserListData(data: any) {
+interface userListProps {
+	id: number;
+	name: number;
+}
+
+function convertUserListData(data: userListProps[]) {
 	const dataMap = data.map(
-		({ id, name }: any) => 'getItem(' + name + ',' + id + ')'
+		({ id, name }) => 'getItem(' + name + ',' + id + ')'
 	);
-	const datas = dataMap.map((el: any) => eval(`el=${el}`));
+	const datas = dataMap.map(el => eval(`el=${el}`));
 	console.log(datas);
 	return datas;
 }
@@ -84,7 +89,7 @@ const Sider = () => {
 	};
 
 	return (
-		<div style={{ background: colorBgContainer, width: '250px' }}>
+		<div style={{ background: colorBgContainer, width: '30vw', margin: '3%' }}>
 			<Menu
 				mode='inline'
 				defaultSelectedKeys={['0']}
