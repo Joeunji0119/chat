@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import ChatRoom from '../components/ChatRoom';
+import ChatRoom from '../components/chat/ChatRoom';
 import Sider from '../components/common/Sider';
 
 const Home = () => {

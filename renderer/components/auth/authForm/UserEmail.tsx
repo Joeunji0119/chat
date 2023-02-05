@@ -5,7 +5,7 @@ const UserEmail = () => {
 	return (
 		<Form.Item
 			label='Email'
-			name='Email'
+			name='email'
 			rules={[{ required: true, message: 'Please input your username!' }]}>
 			<Input />
 		</Form.Item>

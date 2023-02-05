@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { flexCenter } from '../shared/variableStyle';
+import { flexCenter } from '../../shared/variableStyle';
 import ChattingUserInfo from './ChattingUserInfo';
 import Message from './Message';
 import MessageInput from './MessageInput';
@@ -14,6 +14,14 @@ const ChatRoom = () => {
 			</div>
 
 			<div css={MessageContainer}>
+				<Message />
+				<Message />
+				<Message />
+				<Message />
+				<Message />
+				<Message />
+				<Message />
+				<Message />
 				<Message />
 			</div>
 			<MessageInput />

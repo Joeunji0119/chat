@@ -11,15 +11,39 @@ import {
 	UserPassword,
 } from '../components/auth';
 import { useState } from 'react';
+import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	updateProfile,
+} from 'firebase/auth';
+import { app } from '../firebase';
+import UserPicture from '../components/auth/authForm/UserPicture';
+
+interface authProps {
+	[x: string]: string;
+}
+
+interface themeProps {
+	[x: string]: string;
+}
 
 const auth = () => {
 	const [pageMode, setPageMode] = useState('SignIn');
+	const auth = getAuth(app);
 
-	const onFinish = (values: any) => {
-		console.log('Success:', values);
+	const handleSummit = async (values: authProps) => {
+		const { email, password, username } = values;
+
+		await createUserWithEmailAndPassword(auth, email, password)
+			.then(({ user }) => {
+				console.log(user);
+			})
+			.then(res => console.log(111, res))
+			.catch(error => console.log(error));
 	};
 
-	const onFinishFailed = (errorInfo: any) => {
+	const onFinishFailed = (errorInfo: ValidateErrorEntity<authProps>) => {
 		console.log('Failed:', errorInfo);
 	};
 
@@ -30,13 +54,14 @@ const auth = () => {
 				labelCol={{ span: 8 }}
 				wrapperCol={{ span: 16 }}
 				initialValues={{ remember: true }}
-				onFinish={onFinish}
+				onFinish={handleSummit}
 				onFinishFailed={onFinishFailed}
 				autoComplete='on'
 				size='large'
 				css={authLayout}>
 				<PageSwitchButton pageMode={pageMode} setPageMode={setPageMode} />
 				<main css={formContainer}>
+					{pageMode === 'SignUP' && <UserPicture />}
 					{pageMode === 'SignUP' && <UserName />}
 					<UserEmail />
 					<UserPassword />
@@ -49,16 +74,13 @@ const auth = () => {
 
 export default auth;
 
-interface themeProps {
-	[x: string]: string;
-}
-
 const authLayout = (theme: themeProps) => css`
-	${flexCenter.fixedCenter}
+	${flexCenter.absoluteCenter}
 	${flexCenter.flex('column', 'center', '')}
-    padding: 10% 10% 10% 10%;
+    padding: 5% 10%;
 	background: ${theme.grey};
 	border-radius: 8px;
+	z-index: 1;
 `;
 
 const formContainer = css`

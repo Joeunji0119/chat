@@ -6,4 +6,12 @@ module.exports = {
 
 		return config;
 	},
+	async rewrites() {
+		return [
+			{
+				source: '/:path*',
+				destination: '/:path*',
+			},
+		];
+	},
 };

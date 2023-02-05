@@ -40,5 +40,8 @@ export default Nav;
 const NavLayout = css`
 	${flexCenter.flex('row', 'left', 'center')}
 	height: 70px;
+	width: 100vw;
 	padding: 0 10px;
+	position: absolute;
+	z-index: 99;
 `;
