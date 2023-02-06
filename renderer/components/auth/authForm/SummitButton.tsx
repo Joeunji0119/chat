@@ -8,6 +8,7 @@ interface pageModeProps {
 
 const SummitButton = ({ pageMode }: pageModeProps) => {
 	const handleButtonText = pageMode === 'SignIn' ? 'Login' : 'SignUp';
+
 	return (
 		<Form.Item wrapperCol={{ offset: 8, span: 16 }}>
 			<Button css={authButton} type='primary' htmlType='submit'>

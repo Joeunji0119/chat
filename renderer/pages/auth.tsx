@@ -2,23 +2,43 @@
 import { css } from '@emotion/react';
 import { Form } from 'antd';
 import { flexCenter } from '../shared/variableStyle';
+import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
 
 import {
-	PageSwitchButton,
+	SwithAuthModeButton,
 	SummitButton,
 	UserEmail,
+	UserImage,
 	UserName,
 	UserPassword,
 } from '../components/auth';
-import { useState } from 'react';
-import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
+import { useEffect, useState } from 'react';
+
 import {
 	getAuth,
 	createUserWithEmailAndPassword,
 	updateProfile,
+	onAuthStateChanged,
+	signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { app } from '../firebase';
-import UserPicture from '../components/auth/authForm/UserPicture';
+
+import { app, db } from '../firebase';
+
+import {
+	getDownloadURL,
+	getStorage,
+	ref,
+	uploadBytes,
+	uploadBytesResumable,
+} from 'firebase/storage';
+
+import {
+	useCurrentUser,
+	useUserImage,
+} from '../components/contexts/ContextWrapper';
+import { doc, setDoc } from 'firebase/firestore';
+import { useRouter } from 'next/router';
+import CompoundedSpace from 'antd/es/space';
 
 interface authProps {
 	[x: string]: string;
@@ -29,18 +49,65 @@ interface themeProps {
 }
 
 const auth = () => {
+	const { imageFile } = useUserImage();
 	const [pageMode, setPageMode] = useState('SignIn');
 	const auth = getAuth(app);
+	const router = useRouter();
+	const [error, setError] = useState(false);
+	const { setCurrentUser } = useCurrentUser();
+
+	// const storage = getStorage();
 
 	const handleSummit = async (values: authProps) => {
 		const { email, password, username } = values;
+		const displayName = username;
 
-		await createUserWithEmailAndPassword(auth, email, password)
-			.then(({ user }) => {
-				console.log(user);
-			})
-			.then(res => console.log(111, res))
-			.catch(error => console.log(error));
+		const handleSignIn = async () => {
+			await signInWithEmailAndPassword(auth, email, password);
+			try {
+				onAuthStateChanged(auth, user => {
+					return setCurrentUser(user);
+				});
+				router.push('/home');
+			} catch (err) {
+				console.log(err);
+			}
+		};
+
+		const handleSignUp = async () => {
+			const res = await createUserWithEmailAndPassword(auth, email, password);
+			try {
+				console.log(res);
+				router.push('/home');
+				// console.log(uploadTask);
+				// uploadTask.on(
+				// 	'state_changed',
+				// 	error => {
+				// 		console.log(error);
+				// 	},
+				// 	async () => {
+				// 		await getDownloadURL(uploadTask.snapshot.ref).then(
+				// 			async downloadURL => {
+				// 				console.log(11111, downloadURL);
+				// 				await updateProfile(res.user, {
+				// 					displayName,
+				// 					photoURL: downloadURL,
+				// 				});
+				// 				setDoc(doc(db, 'users', res.user.uid), {
+				// 					uid: res.user.uid,
+				// 					displayName,
+				// 					email,
+				// 					photoURL: downloadURL,
+				// 				});
+				// 			}
+				// 		);
+				// 	}
+				// );
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		pageMode === 'SignUp' ? handleSignUp() : handleSignIn();
 	};
 
 	const onFinishFailed = (errorInfo: ValidateErrorEntity<authProps>) => {
@@ -53,16 +120,15 @@ const auth = () => {
 				name='basic'
 				labelCol={{ span: 8 }}
 				wrapperCol={{ span: 16 }}
-				initialValues={{ remember: true }}
 				onFinish={handleSummit}
 				onFinishFailed={onFinishFailed}
 				autoComplete='on'
 				size='large'
 				css={authLayout}>
-				<PageSwitchButton pageMode={pageMode} setPageMode={setPageMode} />
+				<SwithAuthModeButton pageMode={pageMode} setPageMode={setPageMode} />
 				<main css={formContainer}>
-					{pageMode === 'SignUP' && <UserPicture />}
-					{pageMode === 'SignUP' && <UserName />}
+					{/* {pageMode === 'SignUP' && <UserImage />}
+					{pageMode === 'SignUP' && <UserName />} */}
 					<UserEmail />
 					<UserPassword />
 					<SummitButton pageMode={pageMode} />

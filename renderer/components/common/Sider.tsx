@@ -8,7 +8,7 @@ import {
 	TeamOutlined,
 } from '@ant-design/icons';
 import { MenuInfo } from 'rc-menu/lib/interface';
-import ChattingUserInfo from '../chat/ChattingUserInfo';
+// import ChattingUserInfo from '../chat/ChattingUserInfo';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -77,8 +77,8 @@ const Sider = () => {
 		getItem(
 			'친구 목록',
 			'sub1',
-			// <UserOutlined />
-			<ChattingUserInfo />,
+			<UserOutlined />,
+			// <ChattingUserInfo />,
 			convertUserListData(data)
 		),
 		getItem('개인 채팅', 'sub2', <TeamOutlined />, [

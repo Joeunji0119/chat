@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+
 import { Upload } from 'antd';
 import { flexCenter } from '../../../shared/variableStyle';
-import useUploadPicture from '../hooks/useUploadPicture';
+import useUploadImage from '../hooks/useUploadImage';
 
-const UserPicture = () => {
-	const { beforeUpload, handleChange, thumbNail } = useUploadPicture();
-
+const UserImage = () => {
+	const { imageValidation, handleChange, thumbNail } = useUploadImage();
 	return (
 		<div css={uploadContainer}>
 			<div>
@@ -15,7 +15,7 @@ const UserPicture = () => {
 					listType='picture-card'
 					className='avatar-uploader'
 					showUploadList={false}
-					beforeUpload={beforeUpload}
+					beforeUpload={imageValidation}
 					onChange={handleChange}>
 					{thumbNail}
 				</Upload>
@@ -25,7 +25,8 @@ const UserPicture = () => {
 	);
 };
 
-export default UserPicture;
+export default UserImage;
+
 const uploadContainer = css`
 	${flexCenter.flex('column', 'center', 'center')}
 	padding-bottom: 15%;

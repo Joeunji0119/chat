@@ -1,2 +1,8 @@
-export { SummitButton, UserEmail, UserPassword, UserName } from './authForm';
-export { default as PageSwitchButton } from './PageSwithButton';
+export {
+	SummitButton,
+	UserEmail,
+	UserPassword,
+	UserName,
+	UserImage,
+} from './authForm';
+export { default as SwithAuthModeButton } from './SwithAuthModeButton';

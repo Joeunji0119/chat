@@ -9,19 +9,19 @@ interface pageModeProps {
 	setPageMode: Dispatch<SetStateAction<string>>;
 }
 
-const PageSwithButton = ({ pageMode, setPageMode }: pageModeProps) => {
-	const isSignIn = (checked: boolean) => {
-		checked ? setPageMode('SignIn') : setPageMode('SignUP');
+const SwithAuthModeButton = ({ pageMode, setPageMode }: pageModeProps) => {
+	const swichAuthMode = (checked: boolean) => {
+		checked ? setPageMode('SignIn') : setPageMode('SignUp');
 	};
 	return (
 		<header css={titleContainer}>
 			<div>{pageMode}</div>
-			<Switch defaultChecked onChange={isSignIn} />
+			<Switch defaultChecked onChange={swichAuthMode} />
 		</header>
 	);
 };
 
-export default PageSwithButton;
+export default SwithAuthModeButton;
 
 interface themeProps {
 	[x: string]: string;

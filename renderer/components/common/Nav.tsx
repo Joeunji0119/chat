@@ -5,13 +5,17 @@ import type { MenuProps } from 'antd';
 import { MenuInfo } from 'rc-menu/lib/interface';
 import { useRouter } from 'next/router';
 import { flexCenter } from '../../shared/variableStyle';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase';
 
 const Nav = () => {
 	const router = useRouter();
 
 	const handlePage = (e: MenuInfo) => {
 		const menuValue = e.domEvent.currentTarget.outerText;
-		menuValue === 'LOGOUT' ? router.push('/auth') : router.push('/home');
+		menuValue === 'LOGOUT'
+			? signOut(auth) && router.push('/auth')
+			: router.push('/home');
 	};
 
 	const menu: MenuProps['items'] = NAV_MENU.map(({ id, name }) => ({
