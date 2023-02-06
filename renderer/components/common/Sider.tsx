@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, theme } from 'antd';
 import type { MenuProps } from 'antd';
 import {
@@ -8,6 +8,10 @@ import {
 	TeamOutlined,
 } from '@ant-design/icons';
 import { MenuInfo } from 'rc-menu/lib/interface';
+import { collection, DocumentData, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase';
+import { useCurrentUser } from '../contexts/ContextWrapper';
+
 // import ChattingUserInfo from '../chat/ChattingUserInfo';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -22,68 +26,61 @@ type getItemProp = {
 };
 
 interface userListProps {
-	id: number;
-	name: number;
+	[x: string]: string;
 }
 
-function convertUserListData(data: userListProps[]) {
-	const dataMap = data.map(
-		({ id, name }) => 'getItem(' + name + ',' + id + ')'
-	);
-	const datas = dataMap.map(el => eval(`el=${el}`));
-	console.log(datas);
-	return datas;
-}
-
-const data = [
-	{
-		id: 1,
-		name: 111,
-	},
-	{
-		id: 2,
-		name: 2222,
-	},
-	{
-		id: 3,
-		name: 3333,
-	},
-	{
-		id: 4,
-		name: 4444,
-	},
-	{
-		id: 5,
-		name: 999,
-	},
-];
+// function convertUserListData(data: userListProps[]) {
+// 	const dataMap = data.map(
+// 		({ uid, displayName }) => '(getItem(' + displayName + ',' + uid + '))'
+// 	);
+// 	const datas = dataMap.map(el => eval(el));
+// 	console.log('datas', datas);
+// 	return datas;
+// }
 
 const getItem: getItemProp = (label, key, icon?, children?) => {
-	console.log(1111, key);
 	return {
 		key,
 		icon,
 		children,
-		label: `${label}`,
+		label,
 	} as MenuItem;
 };
 
+function convertListData(data: userListProps[]) {
+	const list = data.map(({ displayName, uid }) => {
+		return { label: displayName, key: uid };
+	});
+	return list;
+}
+
 const Sider = () => {
-	const {
-		token: { colorBgContainer },
-	} = theme.useToken();
+	const [userList, setUserList] = useState([]);
+	const { currentUser } = useCurrentUser();
+
+	const getUserList = async () => {
+		const userListData: DocumentData[] = [];
+
+		const querySnapshot = await getDocs(collection(db, 'users'));
+		querySnapshot.forEach(doc => {
+			userListData.push(doc.data());
+		});
+		setUserList(userListData);
+	};
+
+	useEffect(() => {
+		getUserList();
+	}, []);
 
 	const siderMenu: MenuItem[] = [
 		getItem(
 			'친구 목록',
-			'sub1',
+			'userList',
 			<UserOutlined />,
-			// <ChattingUserInfo />,
-			convertUserListData(data)
+			convertListData(userList)
 		),
 		getItem('개인 채팅', 'sub2', <TeamOutlined />, [
-			getItem('Team d', '3'),
-			getItem('Team 2', '8'),
+			{ label: 'Team d', key: '3' },
 		]),
 		getItem('단체 채팅', 'sub3', <TeamOutlined />, [
 			getItem('Team e', '7'),
@@ -91,28 +88,24 @@ const Sider = () => {
 		]),
 	];
 
-	const handleUser = (id: MenuInfo) => {
-		console.log(id.keyPath);
+	const handleUser = async (uid: MenuInfo) => {
+		const clickedId = uid.keyPath[0];
+		const combinedId = currentUser.uid + clickedId;
+		const res = await getDocs(collection(db, 'chats'));
 	};
 
 	return (
-		<div style={{ background: colorBgContainer, width: '30vw', margin: '3%' }}>
+		<div style={{ width: '30vw', margin: '3%' }}>
 			<Menu
 				mode='inline'
 				defaultSelectedKeys={['0']}
 				defaultOpenKeys={['sub1']}
 				style={{ height: '100%', borderRight: 0 }}
 				items={siderMenu}
-				onClick={id => handleUser(id)}
+				onClick={uid => handleUser(uid)}
 			/>
 		</div>
 	);
 };
-
-const SIDER_MEMU = [
-	{ id: 1, icon: LaptopOutlined, name: '친구 목록' },
-	{ id: 2, icon: UserOutlined, name: '개인 채팅' },
-	{ id: 3, icon: NotificationOutlined, name: '단체 채팅' },
-];
 
 export default Sider;

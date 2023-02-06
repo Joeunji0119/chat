@@ -12,7 +12,7 @@ import {
 	UserName,
 	UserPassword,
 } from '../components/auth';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import {
 	getAuth,
@@ -77,6 +77,9 @@ const auth = () => {
 		const handleSignUp = async () => {
 			const res = await createUserWithEmailAndPassword(auth, email, password);
 			try {
+				onAuthStateChanged(auth, user => {
+					return setCurrentUser(user);
+				});
 				console.log(res);
 				router.push('/home');
 				// console.log(uploadTask);
@@ -93,12 +96,12 @@ const auth = () => {
 				// 					displayName,
 				// 					photoURL: downloadURL,
 				// 				});
-				// 				setDoc(doc(db, 'users', res.user.uid), {
-				// 					uid: res.user.uid,
-				// 					displayName,
-				// 					email,
-				// 					photoURL: downloadURL,
-				// 				});
+				setDoc(doc(db, 'users', res.user.uid), {
+					uid: res.user.uid,
+					displayName,
+					email,
+					// photoURL: imageFile,
+				});
 				// 			}
 				// 		);
 				// 	}
@@ -127,8 +130,8 @@ const auth = () => {
 				css={authLayout}>
 				<SwithAuthModeButton pageMode={pageMode} setPageMode={setPageMode} />
 				<main css={formContainer}>
-					{/* {pageMode === 'SignUP' && <UserImage />}
-					{pageMode === 'SignUP' && <UserName />} */}
+					{pageMode === 'SignUp' && <UserImage />}
+					{pageMode === 'SignUp' && <UserName />}
 					<UserEmail />
 					<UserPassword />
 					<SummitButton pageMode={pageMode} />
