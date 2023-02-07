@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createContext, useContext, useState } from 'react';
-import { getUserInfo } from '../../api/getUserInfo';
 import { chatListConvert } from '../../constants/menuDataConvert';
+import { MenuInfo } from 'rc-menu/lib/interface';
+import { findChatUid } from '../../constants/chatDataConvert';
 
 export const UserCurrentContext = createContext(null);
+export const ClickedUserContext = createContext(null);
 
 export const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
 	const [currentUser, setCurrentUser] = useState(null);
@@ -14,6 +16,13 @@ export const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
 	console.log('현재 유저 정보', currentUser);
 	console.log('유저 채팅 리스트', chatListData);
 	console.log('친구 목록', userList);
+
+	const [clickedUserUid, setClikedUserUid] = useState<MenuInfo>(null);
+
+	const chatUid =
+		currentUser !== null && clickedUserUid !== null
+			? findChatUid(currentUser.uid, clickedUserUid.key)
+			: '';
 
 	return (
 		<UserCurrentContext.Provider
@@ -26,9 +35,17 @@ export const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
 				setUserList,
 				chatList,
 			}}>
-			{children}
+			<ClickedUserContext.Provider
+				value={{
+					clickedUserUid,
+					setClikedUserUid,
+					chatUid,
+				}}>
+				{children}
+			</ClickedUserContext.Provider>
 		</UserCurrentContext.Provider>
 	);
 };
 
 export const useCurrentUser = () => useContext(UserCurrentContext);
+export const useClickedUser = () => useContext(ClickedUserContext);

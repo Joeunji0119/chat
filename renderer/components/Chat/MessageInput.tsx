@@ -1,21 +1,38 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Button, Input } from 'antd';
+import { Button } from 'antd';
+import { arrayUnion, doc, Timestamp, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
+import { db } from '../../firebase';
 import { flexCenter } from '../../shared/variableStyle';
-const { TextArea } = Input;
+import { useClickedUser, useCurrentUser } from '../contexts/ContextWrapper';
+import { v1 } from 'uuid';
+import TextArea from 'antd/es/input/TextArea';
 
 const MessageInput = () => {
+	const { currentUser } = useCurrentUser();
+	const { chatUid } = useClickedUser();
 	const [sendMessage, setSendMessage] = useState('');
+
 	const onChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
 		setSendMessage(e.target.value);
 	};
-	const handleSendMessage = () => {
-		sendMessage === '' ? alert('내용을 입력하세요') : console.log(sendMessage),
-			setSendMessage('');
+
+	const handleSendMessage = async () => {
+		if (sendMessage === '') alert('내용을 입력하세요');
+		await updateDoc(doc(db, 'chats', chatUid), {
+			messages: arrayUnion({
+				id: v1(),
+				text: sendMessage,
+				sendId: currentUser.uid,
+				date: Timestamp.now(),
+			}),
+		});
+		setSendMessage('');
 	};
+
 	return (
 		<form css={layout}>
 			<TextArea
@@ -38,14 +55,10 @@ const MessageInput = () => {
 
 export default MessageInput;
 
-interface themeProps {
-	[x: string]: string;
-}
-
-const layout = (theme: themeProps) => css`
+const layout = css`
 	${flexCenter.flex('row', 'center', 'flex-start')}
-	height: 10vh;
-	padding-bottom: 2%;
+
+	padding-top: 30px;
 `;
 
 const inputLayout = css`

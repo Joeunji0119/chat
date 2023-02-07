@@ -1,17 +1,25 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useEffect, useRef } from 'react';
+import { messageProps } from '../../constants/types';
+import { useClickedUser } from '../contexts/ContextWrapper';
 import ChattingUserInfo from './ChattingUserInfo';
 
-const Message = () => {
-	// const handleOwner = () => {
-	//     state === me ? style={{flex-direction: "rowReverse}
-	// }
+const Message = ({ message }: { message: messageProps }) => {
+	const ref = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		ref.current.scrollIntoView({
+			behavior: 'smooth',
+		});
+	}, [message]);
+
 	return (
-		<div css={layout}>
+		<div ref={ref} css={layout}>
 			<ChattingUserInfo />
 			<div style={{ marginTop: '20px' }}>
 				<div css={messageLayout}>
-					<div style={{ padding: '10px' }}>안녕하세요 ㅎggggggㅎ</div>
+					<div style={{ padding: '10px' }}>{message?.text}</div>
 				</div>
 			</div>
 		</div>

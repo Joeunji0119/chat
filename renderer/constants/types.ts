@@ -23,6 +23,17 @@ export interface userListProps {
 	[x: string]: string;
 }
 
-export interface Props {
-	[chatListData: string]: any;
+export interface messageProps {
+	id: string;
+	sendId: string;
+	text: string;
+	date: messageDateProps;
+}
+
+export interface messageDateProps {
+	Timestamp: messageDateSecondsProps;
+}
+
+export interface messageDateSecondsProps {
+	[x: string]: number;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Menu } from 'antd';
 import { UserOutlined, TeamOutlined } from '@ant-design/icons';
 import { MenuInfo } from 'rc-menu/lib/interface';
@@ -10,12 +10,13 @@ import {
 	updateDoc,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { useCurrentUser } from '../contexts/ContextWrapper';
+import { useClickedUser, useCurrentUser } from '../contexts/ContextWrapper';
 import { MenuItem } from '../../constants/types';
 import { convertListData, getMenu } from '../../constants/menuDataConvert';
 
 const Sider = () => {
 	const { userList, currentUser, chatList } = useCurrentUser();
+	const { setClikedUserUid } = useClickedUser();
 
 	const handleSelectUser = async (uid: MenuInfo) => {
 		const clickedUserUid = uid.keyPath[0];
@@ -53,7 +54,8 @@ const Sider = () => {
 	};
 
 	const handleSelectChat = (uid: MenuInfo) => {
-		console.log(uid.key);
+		setClikedUserUid(uid);
+		// console.log(uid.key);
 		console.log(uid.domEvent.currentTarget.innerText);
 	};
 
@@ -83,7 +85,7 @@ const Sider = () => {
 				display: 'flex',
 				flexDirection: 'column',
 				width: '30vw',
-				margin: '3%',
+				margin: '30px',
 			}}>
 			<Menu
 				mode='inline'

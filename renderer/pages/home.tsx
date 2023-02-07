@@ -2,14 +2,17 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 
 import { useRouter } from 'next/router';
-import { useCurrentUser } from '../components/contexts/ContextWrapper';
-import Sider from '../components/common/Sider';
-import ChatRoom from './chat/[id]/ChatRoom';
+import {
+	useClickedUser,
+	useCurrentUser,
+} from '../components/contexts/ContextWrapper';
 import { getUserInfo } from '../api/getUserInfo';
+import ChatRoom from '../components/chat/ChatRoom';
+import Sider from '../components/common/Sider';
 
 const Home = () => {
-	const { currentUser, setChatListData, setUserList, chatListData } =
-		useCurrentUser();
+	const { currentUser, setChatListData, setUserList } = useCurrentUser();
+	const { clickedUserUid } = useClickedUser();
 	const router = useRouter();
 
 	useEffect(() => {
@@ -33,9 +36,9 @@ const Home = () => {
 			<Head>
 				<title> Let's Chat 🍒 </title>
 			</Head>
-			<div style={{ display: 'flex', marginTop: '50px' }}>
+			<div style={{ display: 'flex', marginTop: '70px' }}>
 				<Sider />
-				<ChatRoom />
+				{clickedUserUid && <ChatRoom />}
 			</div>
 		</>
 	);

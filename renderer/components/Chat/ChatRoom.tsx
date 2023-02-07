@@ -1,0 +1,69 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+import { Key, useEffect, useState } from 'react';
+import { userName } from './ChattingUserInfo';
+import Message from './Message';
+import MessageInput from './MessageInput';
+import { messageProps, themeProps } from '../../constants/types';
+import { flexCenter } from '../../shared/variableStyle';
+import { useClickedUser } from '../contexts/ContextWrapper';
+import { getChatInfo } from '../../api/getChatInfo';
+
+const ChatRoom = () => {
+	const [messages, setMessages] = useState<messageProps[]>(null);
+	const { clickedUserUid, chatUid } = useClickedUser();
+
+	useEffect(() => {
+		getChatInfo.GETMESSAGES(chatUid, setMessages);
+	}, [chatUid]);
+	console.log('chatUid', chatUid);
+	console.log('메세지', messages);
+	console.log(clickedUserUid);
+
+	return (
+		<section css={layout}>
+			<div css={chatInfo}>
+				<input
+					defaultValue={clickedUserUid?.domEvent?.target?.innerText}
+					readOnly
+					css={userName}
+				/>
+				<div css={chatInfoWith}>and 1 others</div>
+			</div>
+			<div css={MessageContainer}>
+				{messages?.map((el: messageProps, idx: Key) => (
+					<Message key={idx} message={el} />
+				))}
+			</div>
+			<MessageInput />
+		</section>
+	);
+};
+
+const layout = (theme: themeProps) => css`
+	height: 85vh;
+	width: 60vw;
+	margin: 3%;
+	border-radius: 20px;
+	background: ${theme.grey};
+`;
+
+const chatInfo = css`
+	${flexCenter.flex('row', 'flex-start', 'center')}
+	height: 8%;
+	padding-left: 5%;
+	border-radius: 8px;
+`;
+
+const MessageContainer = css`
+	height: 70vh;
+	padding: 5%;
+	overflow: scroll;
+	${flexCenter.flex('column', '', '')}
+`;
+
+const chatInfoWith = css`
+	padding-left: 2%;
+`;
+
+export default ChatRoom;
