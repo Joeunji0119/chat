@@ -1,37 +1,34 @@
-import { RcFile } from 'antd/es/upload';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createContext, useContext, useState } from 'react';
-
-// interface FileProps {
-// 	lastModified: number;
-// 	name: string;
-// 	size: number;
-// 	type: string;
-// }
-
-type ContextFileProps = {
-	imageFile: RcFile;
-	setImageFile: React.Dispatch<React.SetStateAction<RcFile>>;
-};
-
-export const UserImageContext = createContext<ContextFileProps>(null);
+import { getUserInfo } from '../../api/getUserInfo';
+import { chatListConvert } from '../../constants/menuDataConvert';
 
 export const UserCurrentContext = createContext(null);
 
 export const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
-	const [imageFile, setImageFile] = useState<RcFile>(null);
 	const [currentUser, setCurrentUser] = useState(null);
+	const [userList, setUserList] = useState([]);
+	const [chatListData, setChatListData] = useState(null);
+	const chatList = chatListConvert(chatListData);
 
-	console.log(currentUser);
+	console.log('현재 유저 정보', currentUser);
+	console.log('유저 채팅 리스트', chatListData);
+	console.log('친구 목록', userList);
 
 	return (
-		<UserCurrentContext.Provider value={{ currentUser, setCurrentUser }}>
-			<UserImageContext.Provider value={{ imageFile, setImageFile }}>
-				{children}
-			</UserImageContext.Provider>
+		<UserCurrentContext.Provider
+			value={{
+				currentUser,
+				setCurrentUser,
+				chatListData,
+				setChatListData,
+				userList,
+				setUserList,
+				chatList,
+			}}>
+			{children}
 		</UserCurrentContext.Provider>
 	);
 };
 
-export const useUserImage = () => useContext(UserImageContext);
 export const useCurrentUser = () => useContext(UserCurrentContext);

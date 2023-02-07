@@ -1,16 +1,13 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react';
+import { themeProps } from '../../constants/types';
 
 const ChattingUserInfo = () => {
 	return <input value='조은지' readOnly css={userName} />;
 };
 
 export default ChattingUserInfo;
-
-interface themeProps {
-	[x: string]: string;
-}
 
 const userName = (theme: themeProps) => css`
 	width: 50px;

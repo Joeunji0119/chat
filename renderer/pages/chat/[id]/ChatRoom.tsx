@@ -1,24 +1,28 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { onSnapshot } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 import ChattingUserInfo from '../../../components/chat/ChattingUserInfo';
 import Message from '../../../components/chat/Message';
 import MessageInput from '../../../components/chat/MessageInput';
+import { themeProps } from '../../../constants/types';
 import { flexCenter } from '../../../shared/variableStyle';
 
 const ChatRoom = () => {
+	const [message, setMessage] = useState([]);
+
+	// useEffect(() => {
+	// 	const unSub = onSnapshot(doc(db,"chats",data))
+	// }, []);
+
 	return (
 		<section css={layout}>
 			<div css={chatInfo}>
 				<ChattingUserInfo />
+
 				<div css={chatInfoWith}>and 1 others</div>
 			</div>
-
 			<div css={MessageContainer}>
-				<Message />
-				<Message />
-				<Message />
-				<Message />
-				<Message />
 				<Message />
 				<Message />
 				<Message />
@@ -29,10 +33,6 @@ const ChatRoom = () => {
 	);
 };
 
-interface themeProps {
-	[x: string]: string;
-}
-
 const layout = (theme: themeProps) => css`
 	height: 85vh;
 	width: 70vw;
@@ -41,7 +41,7 @@ const layout = (theme: themeProps) => css`
 	background: ${theme.grey};
 `;
 
-const chatInfo = (theme: themeProps) => css`
+const chatInfo = css`
 	${flexCenter.flex('row', 'flex-start', 'center')}
 	height: 8%;
 	padding-left: 5%;

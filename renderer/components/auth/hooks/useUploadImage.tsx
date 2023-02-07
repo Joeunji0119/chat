@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, UploadProps } from 'antd';
 import { RcFile, UploadChangeParam, UploadFile } from 'antd/es/upload';
-import { useUserImage } from '../../contexts/ContextWrapper';
+// import { useUserImage } from '../../contexts/ContextWrapper';
 
 const useUploadImage = () => {
-	const { setImageFile } = useUserImage();
+	// const { setImageFile } = useUserImage();
 
 	const [loading, setLoading] = useState(false);
 	const [imageUrl, setImageUrl] = useState('');
@@ -32,7 +32,7 @@ const useUploadImage = () => {
 		if (info.file.status === 'done') {
 			setLoading(false);
 			setImageUrl(URL.createObjectURL(info.file.originFileObj));
-			setImageFile(info.file.originFileObj);
+			// setImageFile(info.file.originFileObj);
 		}
 	};
 

@@ -8,55 +8,33 @@ import {
 	SwithAuthModeButton,
 	SummitButton,
 	UserEmail,
-	UserImage,
 	UserName,
 	UserPassword,
+	UserImage,
 } from '../components/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
 	getAuth,
 	createUserWithEmailAndPassword,
-	updateProfile,
 	onAuthStateChanged,
 	signInWithEmailAndPassword,
 } from 'firebase/auth';
 
 import { app, db } from '../firebase';
 
-import {
-	getDownloadURL,
-	getStorage,
-	ref,
-	uploadBytes,
-	uploadBytesResumable,
-} from 'firebase/storage';
-
-import {
-	useCurrentUser,
-	useUserImage,
-} from '../components/contexts/ContextWrapper';
+import { useCurrentUser } from '../components/contexts/ContextWrapper';
 import { doc, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/router';
-import CompoundedSpace from 'antd/es/space';
-
-interface authProps {
-	[x: string]: string;
-}
-
-interface themeProps {
-	[x: string]: string;
-}
+import { getUserInfo } from '../api/getUserInfo';
+import { authProps, themeProps } from '../constants/types';
 
 const auth = () => {
-	const { imageFile } = useUserImage();
 	const [pageMode, setPageMode] = useState('SignIn');
 	const auth = getAuth(app);
 	const router = useRouter();
 	const [error, setError] = useState(false);
 	const { setCurrentUser } = useCurrentUser();
-
-	// const storage = getStorage();
 
 	const handleSummit = async (values: authProps) => {
 		const { email, password, username } = values;
@@ -80,32 +58,24 @@ const auth = () => {
 				onAuthStateChanged(auth, user => {
 					return setCurrentUser(user);
 				});
-				console.log(res);
-				router.push('/home');
-				// console.log(uploadTask);
-				// uploadTask.on(
-				// 	'state_changed',
-				// 	error => {
-				// 		console.log(error);
-				// 	},
-				// 	async () => {
-				// 		await getDownloadURL(uploadTask.snapshot.ref).then(
-				// 			async downloadURL => {
-				// 				console.log(11111, downloadURL);
-				// 				await updateProfile(res.user, {
-				// 					displayName,
-				// 					photoURL: downloadURL,
-				// 				});
-				setDoc(doc(db, 'users', res.user.uid), {
+
+				await setDoc(doc(db, 'users', res.user.uid), {
 					uid: res.user.uid,
 					displayName,
 					email,
-					// photoURL: imageFile,
 				});
-				// 			}
-				// 		);
-				// 	}
-				// );
+				await setDoc(doc(db, 'userChats', res.user.uid), {
+					uid: res.user.uid,
+					displayName,
+					email,
+				});
+				await setDoc(doc(db, 'teamChats', res.user.uid), {
+					uid: 'test',
+					displayName: 'test',
+					email: 'test@test.com',
+				});
+
+				router.push('/home');
 			} catch (err) {
 				console.log(err);
 			}
@@ -130,7 +100,7 @@ const auth = () => {
 				css={authLayout}>
 				<SwithAuthModeButton pageMode={pageMode} setPageMode={setPageMode} />
 				<main css={formContainer}>
-					{pageMode === 'SignUp' && <UserImage />}
+					{/* {pageMode === 'SignUp' && <UserImage />} */}
 					{pageMode === 'SignUp' && <UserName />}
 					<UserEmail />
 					<UserPassword />
