@@ -13,6 +13,7 @@ import { db } from '../../firebase';
 import { useClickedUser, useCurrentUser } from '../contexts/ContextWrapper';
 import { MenuItem } from '../../constants/types';
 import { convertListData, getMenu } from '../../constants/menuDataConvert';
+import { findChatUid, findChatUserName } from '../../constants/chatDataConvert';
 
 const Sider = () => {
 	const { userList, currentUser, chatList } = useCurrentUser();
@@ -21,11 +22,9 @@ const Sider = () => {
 	const handleSelectUser = async (uid: MenuInfo) => {
 		const clickedUserUid = uid.keyPath[0];
 		const clickedUserName = uid.domEvent.currentTarget.innerText;
+		const combinedId = findChatUid(currentUser.uid, clickedUserUid);
+		const user = findChatUserName(currentUser, userList);
 
-		const combinedId =
-			currentUser.uid > clickedUserUid
-				? currentUser.uid + clickedUserUid
-				: clickedUserUid + currentUser.uid;
 		try {
 			const res = await getDoc(doc(db, 'chats', combinedId));
 
@@ -33,6 +32,7 @@ const Sider = () => {
 				await setDoc(doc(db, 'chats', combinedId), {
 					message: '',
 				});
+
 				await updateDoc(doc(db, 'userChats', currentUser.uid), {
 					[combinedId + '.userInfo']: {
 						uid: clickedUserUid,
@@ -40,13 +40,18 @@ const Sider = () => {
 					},
 					[combinedId + '.date']: serverTimestamp(),
 				});
+
+				console.log('시작');
+
 				await updateDoc(doc(db, 'userChats', clickedUserUid), {
 					[combinedId + '.userInfo']: {
-						uid: currentUser,
-						displayName: currentUser,
+						uid: currentUser.uid,
+						displayName: user.displayName,
 					},
 					[combinedId + '.date']: serverTimestamp(),
 				});
+
+				console.log('끝');
 			}
 		} catch (err) {
 			console.log(err);
@@ -55,7 +60,6 @@ const Sider = () => {
 
 	const handleSelectChat = (uid: MenuInfo) => {
 		setClikedUserUid(uid);
-		// console.log(uid.key);
 		console.log(uid.domEvent.currentTarget.innerText);
 	};
 

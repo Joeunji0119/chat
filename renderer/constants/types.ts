@@ -8,6 +8,10 @@ export interface themeProps {
 	[x: string]: string;
 }
 
+export interface listProps {
+	[x: string]: string;
+}
+
 export type MenuItem = Required<MenuProps>['items'][number];
 
 export type getItemProp = {
@@ -36,4 +40,8 @@ export interface messageDateProps {
 
 export interface messageDateSecondsProps {
 	[x: string]: number;
+}
+
+export interface Props {
+	[x: string]: any;
 }

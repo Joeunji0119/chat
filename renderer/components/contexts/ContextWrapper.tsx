@@ -3,13 +3,14 @@ import { createContext, useContext, useState } from 'react';
 import { chatListConvert } from '../../constants/menuDataConvert';
 import { MenuInfo } from 'rc-menu/lib/interface';
 import { findChatUid } from '../../constants/chatDataConvert';
+import { listProps } from '../../constants/types';
 
 export const UserCurrentContext = createContext(null);
 export const ClickedUserContext = createContext(null);
 
 export const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
 	const [currentUser, setCurrentUser] = useState(null);
-	const [userList, setUserList] = useState([]);
+	const [userList, setUserList] = useState<listProps>();
 	const [chatListData, setChatListData] = useState(null);
 	const chatList = chatListConvert(chatListData);
 
@@ -23,6 +24,8 @@ export const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
 		currentUser !== null && clickedUserUid !== null
 			? findChatUid(currentUser.uid, clickedUserUid.key)
 			: '';
+
+	const [toogle, setToogle] = useState(false);
 
 	return (
 		<UserCurrentContext.Provider
@@ -40,6 +43,8 @@ export const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
 					clickedUserUid,
 					setClikedUserUid,
 					chatUid,
+					toogle,
+					setToogle,
 				}}>
 				{children}
 			</ClickedUserContext.Provider>

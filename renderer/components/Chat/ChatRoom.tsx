@@ -15,24 +15,21 @@ const ChatRoom = () => {
 
 	useEffect(() => {
 		getChatInfo.GETMESSAGES(chatUid, setMessages);
-	}, [chatUid]);
-	console.log('chatUid', chatUid);
-	console.log('메세지', messages);
-	console.log(clickedUserUid);
+	}, [clickedUserUid]);
 
 	return (
 		<section css={layout}>
 			<div css={chatInfo}>
 				<input
-					defaultValue={clickedUserUid?.domEvent?.target?.innerText}
+					value={clickedUserUid?.domEvent?.target?.innerText}
 					readOnly
 					css={userName}
 				/>
 				<div css={chatInfoWith}>and 1 others</div>
 			</div>
 			<div css={MessageContainer}>
-				{messages?.map((el: messageProps, idx: Key) => (
-					<Message key={idx} message={el} />
+				{messages?.map((el: messageProps) => (
+					<Message key={el.id} message={el} />
 				))}
 			</div>
 			<MessageInput />

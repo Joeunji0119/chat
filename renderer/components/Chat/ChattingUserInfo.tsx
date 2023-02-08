@@ -1,10 +1,17 @@
 /** @jsxImportSource @emotion/react */
-
 import { css } from '@emotion/react';
-import { themeProps } from '../../constants/types';
+import { messageProps, themeProps } from '../../constants/types';
+import { useCurrentUser } from '../contexts/ContextWrapper';
 
-const ChattingUserInfo = () => {
-	return <input defaultValue='은지' readOnly css={userName} />;
+const ChattingUserInfo = ({ message }: { message: messageProps }) => {
+	const { userList } = useCurrentUser();
+
+	const [chatUserName] =
+		userList === undefined || null
+			? ''
+			: userList.filter(({ uid }: { uid: string }) => uid === message.sendId);
+
+	return <input value={chatUserName.displayName} readOnly css={userName} />;
 };
 
 export default ChattingUserInfo;

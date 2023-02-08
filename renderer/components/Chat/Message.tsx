@@ -1,25 +1,40 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { genInputGroupStyle } from 'antd/es/input/style';
 import { useEffect, useRef } from 'react';
 import { messageProps } from '../../constants/types';
-import { useClickedUser } from '../contexts/ContextWrapper';
+import { useClickedUser, useCurrentUser } from '../contexts/ContextWrapper';
 import ChattingUserInfo from './ChattingUserInfo';
 
 const Message = ({ message }: { message: messageProps }) => {
+	const { currentUser } = useCurrentUser();
 	const ref = useRef<HTMLDivElement>(null);
+	const { toogle, setToogle } = useClickedUser();
 
 	useEffect(() => {
-		ref.current.scrollIntoView({
-			behavior: 'smooth',
-		});
-	}, [message]);
+		toogle &&
+			ref.current.scrollIntoView({
+				behavior: 'smooth',
+			});
+		setToogle(false);
+	}, [message, toogle]);
+	console.log(toogle);
+
+	// const messageFromUser = currentUser.uid === message.sendId;
 
 	return (
-		<div ref={ref} css={layout}>
-			<ChattingUserInfo />
-			<div style={{ marginTop: '20px' }}>
-				<div css={messageLayout}>
-					<div style={{ padding: '10px' }}>{message?.text}</div>
+		<div ref={ref}>
+			<div
+				className={message.sendId}
+				css={
+					layout
+					// ({ messageFromUser })
+				}>
+				<ChattingUserInfo message={message} />
+				<div style={{ marginTop: '20px' }}>
+					<div css={messageLayout}>
+						<div style={{ padding: '10px' }}>{message?.text}</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -29,16 +44,15 @@ const Message = ({ message }: { message: messageProps }) => {
 export default Message;
 
 interface themeProps {
-	[x: string]: string;
+	[x: string]: string | boolean;
 }
 
-const layout = css`
+const layout = (messageFromUser: { messageFromUser: boolean }) => css`
 	height: auto;
 	margin-top: 1%;
 	color: white;
 	display: flex;
-	flex-direction: row-reverse;
-	//이거 건드리면 됨
+	flex-direction: ${messageFromUser ? 'row-reverse' : 'row'};
 `;
 
 const messageLayout = (theme: themeProps) => css`

@@ -24,7 +24,7 @@ import {
 import { app, db } from '../firebase';
 
 import { useCurrentUser } from '../components/contexts/ContextWrapper';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import { getUserInfo } from '../api/getUserInfo';
 import { authProps, themeProps } from '../constants/types';
@@ -58,7 +58,6 @@ const auth = () => {
 				onAuthStateChanged(auth, user => {
 					return setCurrentUser(user);
 				});
-
 				await setDoc(doc(db, 'users', res.user.uid), {
 					uid: res.user.uid,
 					displayName,
