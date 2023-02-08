@@ -13,7 +13,6 @@ const MessageInput = () => {
 	const { currentUser } = useCurrentUser();
 	const { chatUid } = useClickedUser();
 	const [sendMessage, setSendMessage] = useState('');
-	const { toogle, setToogle } = useClickedUser();
 
 	const onChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -32,7 +31,6 @@ const MessageInput = () => {
 			}),
 		});
 		setSendMessage('');
-		setToogle(true);
 	};
 
 	return (

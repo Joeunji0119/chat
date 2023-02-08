@@ -11,6 +11,7 @@
 		"postinstall": "electron-builder install-app-deps"
 	},
 	"dependencies": {
+		"@ant-design/icons": "^5.0.1",
 		"@babel/runtime": "^7.20.13",
 		"@emotion/react": "^11.10.5",
 		"@emotion/styled": "^11.10.5",

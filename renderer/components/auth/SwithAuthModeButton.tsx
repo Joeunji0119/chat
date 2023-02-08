@@ -1,13 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Dispatch, SetStateAction } from 'react';
 import { Switch } from 'antd';
 import { flexCenter } from '../../shared/variableStyle';
-
-interface pageModeProps {
-	pageMode: string;
-	setPageMode: Dispatch<SetStateAction<string>>;
-}
+import { pageModeProps, themeProps } from '../../constants/types';
 
 const SwithAuthModeButton = ({ pageMode, setPageMode }: pageModeProps) => {
 	const swichAuthMode = (checked: boolean) => {
@@ -22,11 +17,6 @@ const SwithAuthModeButton = ({ pageMode, setPageMode }: pageModeProps) => {
 };
 
 export default SwithAuthModeButton;
-
-interface themeProps {
-	[x: string]: string;
-}
-
 const titleContainer = (theme: themeProps) => css`
 	${flexCenter.flex('row', ' space-evenly', 'center')}
 	height: 15%;

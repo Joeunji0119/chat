@@ -26,4 +26,12 @@ export const getUserInfo = {
 			setChatListData(doc.data());
 		});
 	},
+	GETTEAMCHATLIST: async (
+		currentUser: { uid: string },
+		setTeamChatListData: (arg0: DocumentData) => void
+	) => {
+		onSnapshot(doc(db, 'teamChats', currentUser?.uid), doc => {
+			setTeamChatListData(doc.data());
+		});
+	},
 };

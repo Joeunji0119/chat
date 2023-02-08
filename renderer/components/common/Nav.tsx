@@ -24,13 +24,15 @@ const Nav = () => {
 	}));
 
 	return (
-		<Menu
-			theme='dark'
-			mode='horizontal'
-			items={menu}
-			onClick={e => handlePage(e)}
-			css={NavLayout}
-		/>
+		<>
+			<Menu
+				theme='dark'
+				mode='horizontal'
+				items={menu}
+				onClick={e => handlePage(e)}
+				css={NavLayout}
+			/>
+		</>
 	);
 };
 
@@ -47,5 +49,5 @@ const NavLayout = css`
 	width: 100vw;
 	padding: 0 10px;
 	position: absolute;
-	z-index: 99;
+	z-index: 50;
 `;

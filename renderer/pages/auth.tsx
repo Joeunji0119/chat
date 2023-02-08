@@ -69,9 +69,9 @@ const auth = () => {
 					email,
 				});
 				await setDoc(doc(db, 'teamChats', res.user.uid), {
-					uid: 'test',
-					displayName: 'test',
-					email: 'test@test.com',
+					uid: 'res.user.uid',
+					displayName,
+					email,
 				});
 
 				router.push('/home');

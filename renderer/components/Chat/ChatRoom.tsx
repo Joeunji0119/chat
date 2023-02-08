@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Key, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { userName } from './ChattingUserInfo';
 import Message from './Message';
 import MessageInput from './MessageInput';

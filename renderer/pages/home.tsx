@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 
 import { useRouter } from 'next/router';
@@ -8,12 +8,15 @@ import {
 } from '../components/contexts/ContextWrapper';
 import { getUserInfo } from '../api/getUserInfo';
 import ChatRoom from '../components/chat/ChatRoom';
-import Sider from '../components/common/Sider';
+import Sider from '../components/sider/Sider';
+import TeamChatModal from '../components/sider/TeamChatModal';
 
 const Home = () => {
-	const { currentUser, setChatListData, setUserList } = useCurrentUser();
+	const { currentUser, setChatListData, setUserList, setTeamChatListData } =
+		useCurrentUser();
 	const { clickedUserUid } = useClickedUser();
 	const router = useRouter();
+	const [modalToogle, setModalToogle] = useState<boolean>(false);
 
 	useEffect(() => {
 		const protectedRoute = () => {
@@ -24,11 +27,15 @@ const Home = () => {
 		const handleGetChatList = () =>
 			getUserInfo.GETCHATLIST(currentUser, setChatListData);
 
+		const handleGetTeamChatList = () =>
+			getUserInfo.GETTEAMCHATLIST(currentUser, setTeamChatListData);
+
 		const handleGetUserList = () => getUserInfo.GETUSERLIST(setUserList);
 
 		protectedRoute();
 		handleGetUserList();
 		handleGetChatList();
+		handleGetTeamChatList();
 	}, []);
 
 	return (
@@ -36,10 +43,18 @@ const Home = () => {
 			<Head>
 				<title> Let's Chat 🍒 </title>
 			</Head>
-			<div style={{ display: 'flex', marginTop: '70px' }}>
-				<Sider />
-				{clickedUserUid && <ChatRoom />}
-			</div>
+			<main style={{ display: 'flex', marginTop: '70px' }}>
+				<Sider setModalToogle={setModalToogle} />
+				{modalToogle && <TeamChatModal setModalToogle={setModalToogle} />}
+				{clickedUserUid ? (
+					<ChatRoom />
+				) : (
+					<section style={{ display: 'flex', fontSize: '30px' }}>
+						🍒
+						<br /> 친구 목록을 눌러서 채팅을 시작해보세요
+					</section>
+				)}
+			</main>
 		</>
 	);
 };

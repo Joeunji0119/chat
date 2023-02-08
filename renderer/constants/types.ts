@@ -1,4 +1,5 @@
 import { MenuProps } from 'antd';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface authProps {
 	[x: string]: string;
@@ -10,6 +11,10 @@ export interface themeProps {
 
 export interface listProps {
 	[x: string]: string;
+}
+
+export interface Props {
+	[x: string]: any;
 }
 
 export type MenuItem = Required<MenuProps>['items'][number];
@@ -37,11 +42,14 @@ export interface messageProps {
 export interface messageDateProps {
 	Timestamp: messageDateSecondsProps;
 }
-
 export interface messageDateSecondsProps {
 	[x: string]: number;
 }
+export interface pageModeProps {
+	pageMode: string;
+	setPageMode: Dispatch<SetStateAction<string>>;
+}
 
-export interface Props {
-	[x: string]: any;
+export interface setModalToogleProps {
+	setModalToogle: React.Dispatch<React.SetStateAction<boolean>>;
 }

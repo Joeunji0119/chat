@@ -15,7 +15,8 @@
 		"isolatedModules": true,
 		"jsx": "preserve",
 		"noImplicitAny": true,
-		"declaration": true
+		"declaration": true,
+		"downlevelIteration": true
 	},
 	"exclude": ["node_modules", "renderer/next.config.js", "app", "dist"]
 }
