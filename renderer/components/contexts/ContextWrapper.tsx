@@ -17,20 +17,20 @@ export const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
 	const [teamChatListData, setTeamChatListData] = useState(null);
 	const teamChatList = chatListConvert(teamChatListData);
 
-	// console.log('현재 유저 정보', currentUser);
-	console.log('유저 채팅 리스트 변환 전', chatListData);
-	console.log('유저 팀채팅 리스트 변환전', teamChatListData);
+	console.log('현재 유저 정보', currentUser);
+	// console.log('유저 채팅 리스트 변환 전', chatListData);
+	// console.log('유저 팀채팅 리스트 변환전', teamChatListData);
 
-	console.log('유저 채팅 리스트 변환 후', chatList);
 	console.log('유저 팀채팅 나와야하는 거', teamChatList);
 
-	// console.log('친구 목록', userList);
-
 	const [clickedUserUid, setClikedUserUid] = useState<MenuInfo>(null);
+	console.log('clickedUserUid:', clickedUserUid);
 
 	const chatUid =
 		currentUser !== null && clickedUserUid !== null
-			? findChatUid(currentUser.uid, clickedUserUid.key)
+			? chatList.map(({ uid }) => uid).includes(clickedUserUid.key)
+				? findChatUid(currentUser.uid, clickedUserUid.key)
+				: clickedUserUid.key
 			: '';
 
 	return (

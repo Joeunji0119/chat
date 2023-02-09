@@ -2,16 +2,17 @@
 import { css } from '@emotion/react';
 import { TeamOutlined } from '@ant-design/icons';
 import { convertListData, getMenu } from '../../../constants/menuDataConvert';
-import { useCurrentUser } from '../../contexts/ContextWrapper';
+import { useClickedUser, useCurrentUser } from '../../contexts/ContextWrapper';
 import { MenuInfo } from 'rc-menu/lib/interface';
 import { MenuLayout } from '../Sider';
 import { Menu } from 'antd';
 
 const TeamChatList = () => {
 	const { teamChatList } = useCurrentUser();
+	const { setClikedUserUid } = useClickedUser();
 
 	const handleSelectTeamChat = (uid: MenuInfo) => {
-		console.log(uid);
+		setClikedUserUid(uid);
 	};
 
 	const teamChatListMenu = [
@@ -22,8 +23,6 @@ const TeamChatList = () => {
 			convertListData(teamChatList)
 		),
 	];
-
-	// console.log('사이더', teamchatList);
 
 	return (
 		<Menu

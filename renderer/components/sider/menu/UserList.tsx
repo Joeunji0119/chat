@@ -24,7 +24,7 @@ const UserList = () => {
 	const { userList, currentUser } = useCurrentUser();
 
 	const handleSelectUser = async (uid: MenuInfo) => {
-		const clickedUserUid = uid.keyPath[0];
+		const clickedUserUid = uid.key;
 		const clickedUserName = uid.domEvent.currentTarget.innerText;
 		const combinedId = findChatUid(currentUser.uid, clickedUserUid);
 		const user = findChatUserName(currentUser, userList);
@@ -54,7 +54,7 @@ const UserList = () => {
 				});
 			}
 		} catch (err) {
-			console.log(err); 
+			console.log(err);
 		}
 	};
 

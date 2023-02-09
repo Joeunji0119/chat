@@ -56,7 +56,7 @@ const TeamChatModal = ({ setModalToogle }: setModalToogleProps) => {
 				for (let j = 0; j < checkedUserExceptMe.length; j++) {
 					await updateDoc(doc(db, 'teamChats', checkedUserPlueMe[i]), {
 						[teamUid + '.userInfo']: {
-							uid: checkedUserExceptMe[j],
+							uid: teamUid,
 							displayName: teamChatName,
 						},
 						[teamUid + '.date']: serverTimestamp(),

@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import { Form } from 'antd';
 import { flexCenter } from '../shared/variableStyle';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
+import { authProps, themeProps } from '../constants/types';
 
 import {
 	SwithAuthModeButton,
@@ -10,9 +11,7 @@ import {
 	UserEmail,
 	UserName,
 	UserPassword,
-	UserImage,
 } from '../components/auth';
-import { useEffect, useState } from 'react';
 
 import {
 	getAuth,
@@ -21,13 +20,11 @@ import {
 	signInWithEmailAndPassword,
 } from 'firebase/auth';
 
+import { doc, setDoc } from 'firebase/firestore';
 import { app, db } from '../firebase';
-
-import { useCurrentUser } from '../components/contexts/ContextWrapper';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { useRouter } from 'next/router';
-import { getUserInfo } from '../api/getUserInfo';
-import { authProps, themeProps } from '../constants/types';
+import { useState } from 'react';
+import { useCurrentUser } from '../components/contexts/ContextWrapper';
 
 const auth = () => {
 	const [pageMode, setPageMode] = useState('SignIn');
@@ -69,7 +66,7 @@ const auth = () => {
 					email,
 				});
 				await setDoc(doc(db, 'teamChats', res.user.uid), {
-					uid: 'res.user.uid',
+					uid: res.user.uid,
 					displayName,
 					email,
 				});
@@ -99,7 +96,6 @@ const auth = () => {
 				css={authLayout}>
 				<SwithAuthModeButton pageMode={pageMode} setPageMode={setPageMode} />
 				<main css={formContainer}>
-					{/* {pageMode === 'SignUp' && <UserImage />} */}
 					{pageMode === 'SignUp' && <UserName />}
 					<UserEmail />
 					<UserPassword />

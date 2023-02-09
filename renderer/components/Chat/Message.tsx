@@ -21,7 +21,13 @@ const Message = ({ message }: { message: messageProps }) => {
 	console.log(message);
 
 	return (
-		<div ref={ref} id={message.sendId} css={layout({ messageFromUser })}>
+		<div
+			ref={ref}
+			id={message.sendId}
+			css={
+				layout
+				// ({ messageFromUser })
+			}>
 			<ChattingUserInfo message={message} />
 			<div style={{ marginTop: '20px' }}>
 				<div css={messageLayout}>

@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { Button } from 'antd';
 import { arrayUnion, doc, Timestamp, updateDoc } from 'firebase/firestore';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { db } from '../../firebase';
 import { flexCenter } from '../../shared/variableStyle';
 import { useClickedUser, useCurrentUser } from '../contexts/ContextWrapper';
@@ -20,8 +20,12 @@ const MessageInput = () => {
 		setSendMessage(e.target.value);
 	};
 
-	const handleSendMessage = async () => {
-		if (sendMessage === '') alert('내용을 입력하세요');
+	const handleSendMessage = async (e: React.SyntheticEvent) => {
+		e.preventDefault();
+		if (sendMessage === '') {
+			return alert('내용을 입력하세요');
+		}
+
 		await updateDoc(doc(db, 'chats', chatUid), {
 			messages: arrayUnion({
 				id: v1(),
@@ -46,7 +50,7 @@ const MessageInput = () => {
 				autoSize={{ maxRows: 3 }}
 				onPressEnter={handleSendMessage}
 			/>
-			<Button type='primary' css={button}>
+			<Button type='primary' onClick={e => handleSendMessage(e)}>
 				보내기
 			</Button>
 		</form>

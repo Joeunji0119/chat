@@ -7,9 +7,9 @@ import {
 	useCurrentUser,
 } from '../components/contexts/ContextWrapper';
 import { getUserInfo } from '../api/getUserInfo';
-import ChatRoom from '../components/chat/ChatRoom';
 import Sider from '../components/sider/Sider';
 import TeamChatModal from '../components/sider/TeamChatModal';
+import ChatRoom from '../components/Chat/ChatRoom';
 
 const Home = () => {
 	const { currentUser, setChatListData, setUserList, setTeamChatListData } =

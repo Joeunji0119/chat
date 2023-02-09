@@ -23,8 +23,6 @@ const ChatList = () => {
 			convertListData(chatList)
 		),
 	];
-	console.log('사이더chatList', chatList);
-	console.log('siderChat', convertListData(chatList));
 
 	return (
 		<Menu

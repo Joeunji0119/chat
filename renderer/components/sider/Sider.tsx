@@ -3,9 +3,9 @@ import { css } from '@emotion/react';
 import UserList from './menu/UserList';
 import ChatList from './menu/ChatList';
 import TeamChatList from './menu/TeamChatList';
-import TeamChatButton from '../chat/TeamChatButton';
+
 import { setModalToogleProps } from '../../constants/types';
-import { Menu } from 'antd';
+import TeamChatButton from '../Chat/TeamChatButton';
 
 const Sider = ({ setModalToogle }: setModalToogleProps) => {
 	return (

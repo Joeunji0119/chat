@@ -6,7 +6,7 @@ import Message from './Message';
 import MessageInput from './MessageInput';
 import { messageProps, themeProps } from '../../constants/types';
 import { flexCenter } from '../../shared/variableStyle';
-import { useClickedUser } from '../contexts/ContextWrapper';
+import { useClickedUser, useCurrentUser } from '../contexts/ContextWrapper';
 import { getChatInfo } from '../../api/getChatInfo';
 
 const ChatRoom = () => {
@@ -16,6 +16,8 @@ const ChatRoom = () => {
 	useEffect(() => {
 		getChatInfo.GETMESSAGES(chatUid, setMessages);
 	}, [clickedUserUid]);
+
+	console.log(messages);
 
 	return (
 		<section css={layout}>
