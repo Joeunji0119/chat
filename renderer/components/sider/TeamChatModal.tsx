@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-
 import { ChangeEvent, useState } from 'react';
 import {
 	listProps,
@@ -11,15 +10,10 @@ import { flexCenter } from '../../shared/variableStyle';
 import { useCurrentUser } from '../contexts/ContextWrapper';
 import { Input, Checkbox, Button, Space, Card } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import {
-	doc,
-	getDoc,
-	serverTimestamp,
-	setDoc,
-	updateDoc,
-} from 'firebase/firestore';
+import { doc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { v1 } from 'uuid';
+import { convertCheckBoxUserlist } from '../../constants/chatDataConvert';
 
 const TeamChatModal = ({ setModalToogle }: setModalToogleProps) => {
 	const { userList, currentUser } = useCurrentUser();
@@ -46,26 +40,33 @@ const TeamChatModal = ({ setModalToogle }: setModalToogleProps) => {
 		if (checkedList.length === 0 || teamChatName === '') {
 			alert('단체방 이름과 채팅 유저 선택은 필수입니다.');
 		}
-		console.log('단체방', teamChatName, checkedList);
 
-		// try {
-		// 	const teamUid = v1()
+		const checkedUserPlueMe = [...checkedList, currentUser.uid];
 
-		// 	for(let i=0;i<checkedList.length)
-		// 	await setDoc(doc(db, 'teamChats', teamUid), {
-		// 		message: '',
-		// 	});
-		// 	await updateDoc(doc(db, 'userChats', currentUser.uid), {
-		// 		[teamUid + '.userInfo']: {
-		// 			uid: checkedList[i],
-		// 			displayName: teamChatName,
-		// 		},
-		// 		[teamUid + '.date']: serverTimestamp(),
-		// 	});
+		try {
+			const teamUid = v1();
+			await setDoc(doc(db, 'chats', teamUid), {
+				message: '',
+			});
 
-		// } catch (err) {
-		// 	console.log(err);
-		// }
+			for (let i = 0; i < checkedUserPlueMe.length; i++) {
+				const checkedUserExceptMe = checkedUserPlueMe.filter(
+					el => el !== checkedUserPlueMe[i]
+				);
+				for (let j = 0; j < checkedUserExceptMe.length; j++) {
+					await updateDoc(doc(db, 'teamChats', checkedUserPlueMe[i]), {
+						[teamUid + '.userInfo']: {
+							uid: checkedUserExceptMe[j],
+							displayName: teamChatName,
+						},
+						[teamUid + '.date']: serverTimestamp(),
+					});
+				}
+			}
+			handleCloseModal();
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (
@@ -73,14 +74,16 @@ const TeamChatModal = ({ setModalToogle }: setModalToogleProps) => {
 			<Space direction='vertical' size='middle' style={{ display: 'flex' }}>
 				<Card title='단체 채팅' css={cardLayout}>
 					<div css={checkBoxsContainer}>
-						{userList?.map((el: listProps) => (
-							<Checkbox
-								key={el.uid}
-								id={el.uid}
-								onChange={e => handleCheckbox(e)}>
-								{el.displayName}
-							</Checkbox>
-						))}
+						{convertCheckBoxUserlist(userList, currentUser)?.map(
+							(el: listProps) => (
+								<Checkbox
+									key={el.uid}
+									id={el.uid}
+									onChange={e => handleCheckbox(e)}>
+									{el.displayName}
+								</Checkbox>
+							)
+						)}
 					</div>
 					<Input
 						placeholder='단체방 이름을 입력하세요'

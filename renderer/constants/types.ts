@@ -13,6 +13,10 @@ export interface listProps {
 	[x: string]: string;
 }
 
+export interface userListProps {
+	[x: string]: string;
+}
+
 export interface Props {
 	[x: string]: any;
 }
@@ -27,10 +31,6 @@ export type getItemProp = {
 		children?: MenuItem[]
 	): MenuItem;
 };
-
-export interface userListProps {
-	[x: string]: string;
-}
 
 export interface messageProps {
 	id: string;
