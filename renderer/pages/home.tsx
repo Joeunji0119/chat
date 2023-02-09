@@ -9,14 +9,15 @@ import {
 import { getUserInfo } from '../api/getUserInfo';
 import Sider from '../components/sider/Sider';
 import TeamChatModal from '../components/sider/TeamChatModal';
-import ChatRoom from '../components/Chat/ChatRoom';
+import ChatRoom from '../components/chat/ChatRoom';
+import HomeGuideContainer from '../components/HomeGuideContainer';
 
 const Home = () => {
+	const router = useRouter();
+	const { clickedUserUid } = useClickedUser();
+	const [modalToogle, setModalToogle] = useState<boolean>(false);
 	const { currentUser, setChatListData, setUserList, setTeamChatListData } =
 		useCurrentUser();
-	const { clickedUserUid } = useClickedUser();
-	const router = useRouter();
-	const [modalToogle, setModalToogle] = useState<boolean>(false);
 
 	useEffect(() => {
 		const protectedRoute = () => {
@@ -46,14 +47,7 @@ const Home = () => {
 			<main style={{ display: 'flex', marginTop: '70px' }}>
 				<Sider setModalToogle={setModalToogle} />
 				{modalToogle && <TeamChatModal setModalToogle={setModalToogle} />}
-				{clickedUserUid ? (
-					<ChatRoom />
-				) : (
-					<section style={{ display: 'flex', fontSize: '30px' }}>
-						🍒
-						<br /> 친구 목록을 눌러서 채팅을 시작해보세요
-					</section>
-				)}
+				{clickedUserUid ? <ChatRoom /> : <HomeGuideContainer />}
 			</main>
 		</>
 	);

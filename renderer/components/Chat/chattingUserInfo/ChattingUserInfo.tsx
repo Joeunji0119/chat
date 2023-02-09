@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { messageProps, themeProps } from '../../constants/types';
-import { useCurrentUser } from '../contexts/ContextWrapper';
+import { messageProps, themeProps } from '../../../constants/types';
+import { useCurrentUser } from '../../contexts/ContextWrapper';
 
 const ChattingUserInfo = ({ message }: { message: messageProps }) => {
 	const { userList } = useCurrentUser();

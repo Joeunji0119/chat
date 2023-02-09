@@ -1,7 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { MenuLayout } from '../Sider';
+
 import { UserOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
+import { MenuItem } from '../../../constants/types';
+import { MenuInfo } from 'rc-menu/lib/interface';
+
+import {
+	findChatUid,
+	findChatUserName,
+} from '../../../constants/chatDataConvert';
+import { convertListData, getMenu } from '../../../constants/menuDataConvert';
+
 import {
 	doc,
 	getDoc,
@@ -9,16 +20,9 @@ import {
 	setDoc,
 	updateDoc,
 } from 'firebase/firestore';
-import {
-	findChatUid,
-	findChatUserName,
-} from '../../../constants/chatDataConvert';
-import { convertListData, getMenu } from '../../../constants/menuDataConvert';
-import { MenuItem } from '../../../constants/types';
 import { db } from '../../../firebase';
+
 import { useCurrentUser } from '../../contexts/ContextWrapper';
-import { MenuInfo } from 'rc-menu/lib/interface';
-import { MenuLayout } from '../Sider';
 
 const UserList = () => {
 	const { userList, currentUser } = useCurrentUser();

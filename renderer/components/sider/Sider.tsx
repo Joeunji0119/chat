@@ -5,7 +5,7 @@ import ChatList from './menu/ChatList';
 import TeamChatList from './menu/TeamChatList';
 
 import { setModalToogleProps } from '../../constants/types';
-import TeamChatButton from '../Chat/TeamChatButton';
+import TeamChatButton from './TeamChatButton';
 
 const Sider = ({ setModalToogle }: setModalToogleProps) => {
 	return (

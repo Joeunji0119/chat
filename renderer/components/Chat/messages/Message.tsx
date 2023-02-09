@@ -1,10 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { send } from 'process';
 import { useEffect, useRef } from 'react';
-import { messageProps } from '../../constants/types';
-import { useCurrentUser } from '../contexts/ContextWrapper';
-import ChattingUserInfo from './ChattingUserInfo';
+import { messageProps, themeProps } from '../../../constants/types';
+import { useCurrentUser } from '../../contexts/ContextWrapper';
+import ChattingUserInfo from '../chattingUserInfo/ChattingUserInfo';
 
 const Message = ({ message }: { message: messageProps }) => {
 	const { currentUser } = useCurrentUser();
@@ -16,18 +15,13 @@ const Message = ({ message }: { message: messageProps }) => {
 		});
 	}, [message]);
 
-	const messageFromUser = currentUser.uid === message.sendId;
+	const messageFromUser =
+		currentUser !== null ? currentUser.uid === message.sendId : '';
 
 	console.log(message);
 
 	return (
-		<div
-			ref={ref}
-			id={message.sendId}
-			css={
-				layout
-				// ({ messageFromUser })
-			}>
+		<div ref={ref} id={message.sendId} css={layout({ messageFromUser })}>
 			<ChattingUserInfo message={message} />
 			<div style={{ marginTop: '20px' }}>
 				<div css={messageLayout}>
@@ -40,11 +34,7 @@ const Message = ({ message }: { message: messageProps }) => {
 
 export default Message;
 
-interface themeProps {
-	[x: string]: string | boolean;
-}
-
-const layout = (messageFromUser: { messageFromUser: boolean }) => css`
+const layout = (messageFromUser: { messageFromUser: boolean | string }) => css`
 	height: auto;
 	margin-top: 1%;
 	color: white;

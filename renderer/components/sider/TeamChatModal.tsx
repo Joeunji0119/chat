@@ -70,37 +70,39 @@ const TeamChatModal = ({ setModalToogle }: setModalToogleProps) => {
 	};
 
 	return (
-		<section css={modalLayout}>
-			<Space direction='vertical' size='middle' style={{ display: 'flex' }}>
-				<Card title='단체 채팅' css={cardLayout}>
-					<div css={checkBoxsContainer}>
-						{convertCheckBoxUserlist(userList, currentUser)?.map(
-							(el: listProps) => (
-								<Checkbox
-									key={el.uid}
-									id={el.uid}
-									onChange={e => handleCheckbox(e)}>
-									{el.displayName}
-								</Checkbox>
-							)
-						)}
-					</div>
-					<Input
-						placeholder='단체방 이름을 입력하세요'
-						onChange={e => handleInputOnChange(e)}
-					/>
-					<div css={buttonContainer}>
-						<Button
-							css={modalButtonLayout}
-							type='primary'
-							onClick={e => handleSummit(e)}>
-							만들기
-						</Button>
-						<Button onClick={handleCloseModal}>취소</Button>
-					</div>
-				</Card>
-			</Space>
-		</section>
+		<div css={background}>
+			<section css={modalLayout}>
+				<Space direction='vertical' size='middle' style={{ display: 'flex' }}>
+					<Card title='단체 채팅' css={cardLayout}>
+						<div css={checkBoxsContainer}>
+							{convertCheckBoxUserlist(userList, currentUser)?.map(
+								(el: listProps) => (
+									<Checkbox
+										key={el.uid}
+										id={el.uid}
+										onChange={e => handleCheckbox(e)}>
+										{el.displayName}
+									</Checkbox>
+								)
+							)}
+						</div>
+						<Input
+							placeholder='단체방 이름을 입력하세요'
+							onChange={e => handleInputOnChange(e)}
+						/>
+						<div css={buttonContainer}>
+							<Button
+								css={modalButtonLayout}
+								type='primary'
+								onClick={e => handleSummit(e)}>
+								만들기
+							</Button>
+							<Button onClick={handleCloseModal}>취소</Button>
+						</div>
+					</Card>
+				</Space>
+			</section>
+		</div>
 	);
 };
 
@@ -132,4 +134,10 @@ const modalButtonLayout = css`
 const buttonContainer = css`
 	${flexCenter.flex('row', 'center', 'center')}
 	padding-top: 20px;
+`;
+
+const background = (theme: themeProps) => css`
+	${flexCenter.fixedCenter};
+	background: ${theme.black};
+	z-index: 40;
 `;

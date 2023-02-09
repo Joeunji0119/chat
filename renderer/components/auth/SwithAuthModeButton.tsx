@@ -9,10 +9,10 @@ const SwithAuthModeButton = ({ pageMode, setPageMode }: pageModeProps) => {
 		checked ? setPageMode('SignIn') : setPageMode('SignUp');
 	};
 	return (
-		<header css={titleContainer}>
+		<section css={titleContainer}>
 			<div>{pageMode}</div>
 			<Switch defaultChecked onChange={swichAuthMode} />
-		</header>
+		</section>
 	);
 };
 

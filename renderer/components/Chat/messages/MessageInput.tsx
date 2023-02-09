@@ -1,13 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Button } from 'antd';
+import { Input } from 'antd';
+import { flexCenter } from '../../../shared/variableStyle';
+
+import { useState } from 'react';
 import { arrayUnion, doc, Timestamp, updateDoc } from 'firebase/firestore';
-import React, { useState } from 'react';
-import { db } from '../../firebase';
-import { flexCenter } from '../../shared/variableStyle';
-import { useClickedUser, useCurrentUser } from '../contexts/ContextWrapper';
+import { db } from '../../../firebase';
+
 import { v1 } from 'uuid';
-import TextArea from 'antd/es/input/TextArea';
+import { useClickedUser, useCurrentUser } from '../../contexts/ContextWrapper';
 
 const MessageInput = () => {
 	const { currentUser } = useCurrentUser();
@@ -22,6 +24,7 @@ const MessageInput = () => {
 
 	const handleSendMessage = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
+
 		if (sendMessage === '') {
 			return alert('내용을 입력하세요');
 		}
@@ -38,8 +41,8 @@ const MessageInput = () => {
 	};
 
 	return (
-		<form css={layout}>
-			<TextArea
+		<form css={layout} onSubmit={handleSendMessage}>
+			<Input
 				value={sendMessage}
 				css={inputLayout}
 				showCount
@@ -47,10 +50,8 @@ const MessageInput = () => {
 				onChange={onChange}
 				placeholder='type Plz :)'
 				allowClear={true}
-				autoSize={{ maxRows: 3 }}
-				onPressEnter={handleSendMessage}
 			/>
-			<Button type='primary' onClick={e => handleSendMessage(e)}>
+			<Button type='primary' css={button} onClick={e => handleSendMessage(e)}>
 				보내기
 			</Button>
 		</form>
@@ -61,8 +62,7 @@ export default MessageInput;
 
 const layout = css`
 	${flexCenter.flex('row', 'center', 'flex-start')}
-
-	padding-top: 30px;
+	padding: 3% 0;
 `;
 
 const inputLayout = css`
