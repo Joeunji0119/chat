@@ -24,6 +24,14 @@ npm i 이후 npm run dev 실행
 <br/>
 <br/>
 
+```
+🖥 Test Id
+
+id : test@gmail.com
+pw : asdf1234
+
+```
+
 
 ## ⚒️ Stack ⚒️ 
 </br>
