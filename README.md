@@ -33,6 +33,24 @@ npm i 이후 npm run dev 실행
 
 
 
+
+## 구현 목록 & 구현 영상
+
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FblHY8S%2FbtrYIUBfe2G%2FekBTfw6HVyqGDW2FPoyEVk%2Fimg.gif" width="500px"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FZ1rfD%2FbtrYIvVZ3qt%2FNggKYHAg12uApoLkStzXR1%2Fimg.gif" width="500px">
+
+
+
+- [x] 회원가입, 로그인 구현
+- [x] 1:1 채팅 구현
+- [x] 단체 채팅 구현
+- [x] 서버리스 서비스 구현 
+
+</br>
+
+
+
+
+
 </br>
 
 ## 폴더 구조
