@@ -9,8 +9,9 @@ import {
 import { getUserInfo } from '../api/getUserInfo';
 import Sider from '../components/sider/Sider';
 import TeamChatModal from '../components/sider/TeamChatModal';
-import ChatRoom from '../components/chat/ChatRoom';
 import HomeGuideContainer from '../components/HomeGuideContainer';
+import Nav from '../components/common/Nav';
+import ChatRoom from '../components/Chat/ChatRoom';
 
 const Home = () => {
 	const router = useRouter();
@@ -44,6 +45,7 @@ const Home = () => {
 			<Head>
 				<title> Let's Chat 🍒 </title>
 			</Head>
+			<Nav />
 			<main style={{ display: 'flex', marginTop: '70px' }}>
 				<Sider setModalToogle={setModalToogle} />
 				{modalToogle && <TeamChatModal setModalToogle={setModalToogle} />}

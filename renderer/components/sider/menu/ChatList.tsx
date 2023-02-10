@@ -9,10 +9,10 @@ import { TeamOutlined } from '@ant-design/icons';
 
 const ChatList = () => {
 	const { chatList } = useCurrentUser();
-	const { setClikedUserUid } = useClickedUser();
+	const { setClickedUserUid } = useClickedUser();
 
 	const handleSelectChat = (uid: MenuInfo) => {
-		setClikedUserUid(uid);
+		setClickedUserUid(uid);
 	};
 
 	const chatListMenu = [

@@ -4,20 +4,25 @@ import { chatListConvert } from '../../constants/menuDataConvert';
 import { MenuInfo } from 'rc-menu/lib/interface';
 import { findChatUid } from '../../constants/chatDataConvert';
 import { listProps } from '../../constants/types';
+import { DocumentData } from 'firebase/firestore';
 
 export const UserCurrentContext = createContext(null);
 export const ClickedUserContext = createContext(null);
 
+interface CurrentUserProp {
+	uid: string;
+}
+
 export const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
-	const [currentUser, setCurrentUser] = useState(null);
-	const [userList, setUserList] = useState<listProps>();
-	const [chatListData, setChatListData] = useState(null);
+	const [currentUser, setCurrentUser] = useState<CurrentUserProp>(null);
+	const [userList, setUserList] = useState<listProps>(null);
+	const [chatListData, setChatListData] = useState<DocumentData>([]);
 	const chatList = chatListConvert(chatListData);
 
-	const [teamChatListData, setTeamChatListData] = useState(null);
+	const [teamChatListData, setTeamChatListData] = useState<DocumentData>([]);
 	const teamChatList = chatListConvert(teamChatListData);
 
-	const [clickedUserUid, setClikedUserUid] = useState<MenuInfo>(null);
+	const [clickedUserUid, setClickedUserUid] = useState<MenuInfo>(null);
 
 	const chatUid =
 		currentUser !== null && clickedUserUid !== null
@@ -43,7 +48,7 @@ export const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
 			<ClickedUserContext.Provider
 				value={{
 					clickedUserUid,
-					setClikedUserUid,
+					setClickedUserUid,
 					chatUid,
 				}}>
 				{children}

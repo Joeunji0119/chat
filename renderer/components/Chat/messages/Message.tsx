@@ -18,10 +18,8 @@ const Message = ({ message }: { message: messageProps }) => {
 	const messageFromUser =
 		currentUser !== null ? currentUser.uid === message.sendId : '';
 
-	console.log(message);
-
 	return (
-		<div ref={ref} id={message.sendId} css={layout({ messageFromUser })}>
+		<div ref={ref} css={messageFromUser ? layoutRight : layoutLeft}>
 			<ChattingUserInfo message={message} />
 			<div style={{ marginTop: '20px' }}>
 				<div css={messageLayout}>
@@ -34,12 +32,20 @@ const Message = ({ message }: { message: messageProps }) => {
 
 export default Message;
 
-const layout = (messageFromUser: { messageFromUser: boolean | string }) => css`
+const layoutRight = css`
 	height: auto;
 	margin-top: 1%;
 	color: white;
 	display: flex;
-	flex-direction: ${messageFromUser ? 'row-reverse' : 'row'};
+	flex-direction: row-reverse;
+`;
+
+const layoutLeft = css`
+	height: auto;
+	margin-top: 1%;
+	color: white;
+	display: flex;
+	flex-direction: row;
 `;
 
 const messageLayout = (theme: themeProps) => css`

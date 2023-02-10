@@ -7,15 +7,24 @@ import { MenuInfo } from 'rc-menu/lib/interface';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useRouter } from 'next/router';
+import { useClickedUser } from '../contexts/ContextWrapper';
 
 const Nav = () => {
 	const router = useRouter();
+	const { setClickedUserUid } = useClickedUser();
 
 	const handlePage = (e: MenuInfo) => {
 		const menuValue = e.domEvent.currentTarget.outerText;
-		menuValue === 'LOGOUT'
-			? signOut(auth) && router.push('/auth')
-			: router.push('/home');
+		if (menuValue === 'LOGOUT') {
+			setClickedUserUid('');
+			signOut(auth);
+			alert('로그아웃 되었습니다');
+			router.push('/auth');
+		}
+		if (menuValue === 'HOME') {
+			setClickedUserUid('');
+			router.push('/home');
+		}
 	};
 
 	const menu: MenuProps['items'] = NAV_MENU.map(({ id, name }) => ({

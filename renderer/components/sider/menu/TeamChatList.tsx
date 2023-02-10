@@ -9,10 +9,10 @@ import { Menu } from 'antd';
 
 const TeamChatList = () => {
 	const { teamChatList } = useCurrentUser();
-	const { setClikedUserUid } = useClickedUser();
+	const { setClickedUserUid } = useClickedUser();
 
 	const handleSelectTeamChat = (uid: MenuInfo) => {
-		setClikedUserUid(uid);
+		setClickedUserUid(uid);
 	};
 
 	const teamChatListMenu = [

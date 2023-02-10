@@ -2,7 +2,6 @@
 import { css } from '@emotion/react';
 import { Form } from 'antd';
 import { flexCenter } from '../shared/variableStyle';
-import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import { authProps, themeProps } from '../constants/types';
 
 import {
@@ -30,7 +29,6 @@ const auth = () => {
 	const [pageMode, setPageMode] = useState('SignIn');
 	const auth = getAuth(app);
 	const router = useRouter();
-	const [error, setError] = useState(false);
 	const { setCurrentUser } = useCurrentUser();
 
 	const handleSummit = async (values: authProps) => {
@@ -38,49 +36,43 @@ const auth = () => {
 		const displayName = username;
 
 		const handleSignIn = async () => {
-			await signInWithEmailAndPassword(auth, email, password);
-			try {
+			const res = await signInWithEmailAndPassword(auth, email, password).catch(
+				error => alert('아이디와 비밀번호를 확인하세요.')
+			);
+			if (res) {
 				onAuthStateChanged(auth, user => {
 					return setCurrentUser(user);
 				});
 				router.push('/home');
-			} catch (err) {
-				console.log(err);
 			}
 		};
 
 		const handleSignUp = async () => {
-			const res = await createUserWithEmailAndPassword(auth, email, password);
-			try {
-				onAuthStateChanged(auth, user => {
-					return setCurrentUser(user);
-				});
-				await setDoc(doc(db, 'users', res.user.uid), {
-					uid: res.user.uid,
-					displayName,
-					email,
-				});
-				await setDoc(doc(db, 'userChats', res.user.uid), {
-					uid: res.user.uid,
-					displayName,
-					email,
-				});
-				await setDoc(doc(db, 'teamChats', res.user.uid), {
-					uid: res.user.uid,
-					displayName,
-					email,
-				});
-
-				router.push('/home');
-			} catch (err) {
-				console.log(err);
-			}
+			await createUserWithEmailAndPassword(auth, email, password)
+				.then(res => {
+					setDoc(doc(db, 'users', res.user.uid), {
+						uid: res.user.uid,
+						displayName,
+						email,
+					});
+					setDoc(doc(db, 'userChats', res.user.uid), {
+						uid: res.user.uid,
+						displayName,
+						email,
+					});
+					setDoc(doc(db, 'teamChats', res.user.uid), {
+						uid: res.user.uid,
+						displayName,
+						email,
+					});
+					alert('회원가입에 성공했습니다!');
+					setPageMode('SignIn');
+				})
+				.catch(error =>
+					alert('이메일이나 아이디, 비밀번호 형식이 맞지 않습니다.')
+				);
 		};
 		pageMode === 'SignUp' ? handleSignUp() : handleSignIn();
-	};
-
-	const onFinishFailed = (errorInfo: ValidateErrorEntity<authProps>) => {
-		console.log('Failed:', errorInfo);
 	};
 
 	return (
@@ -90,7 +82,6 @@ const auth = () => {
 				labelCol={{ span: 8 }}
 				wrapperCol={{ span: 16 }}
 				onFinish={handleSummit}
-				onFinishFailed={onFinishFailed}
 				autoComplete='on'
 				size='large'
 				css={authLayout}>
