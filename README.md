@@ -139,14 +139,49 @@ return (
 ### firebase 사용
 
 
+<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdX9goR%2FbtrYKGCiuvV%2FKokeZR8kktjhuejIFI6211%2Fimg.png" width="350px">
 
-
-
-
-
+<br/>`chats` : 채팅방 고유 uid 로 연결, 메세지를 담고 있습니다.
+<br/>`teamChats` : 유저 uid로 연결, 해당 유저의 단체 채팅방을 담고 있습니다.
+<br/>`userChats`: 유저 uid로 연결, 해당 유저의 개인 채팅방을 담고 있습니다.
+<br/>`user` : 해당 유저의 정보 (이름, 이메일, uid)를 담고 있습니다.
 
 
 </br><br/>
+
+
+### 단체 채팅방 구현
+
+
+```javascript
+
+const teamUid = v1();
+await setDoc(doc(db, 'chats', teamUid), {
+	message: '',
+});
+
+for (let i = 0; i < checkedUserPlueMe.length; i++) {
+	const checkedUserExceptMe = checkedUserPlueMe.filter(
+		el => el !== checkedUserPlueMe[i]
+	);
+	for (let j = 0; j < checkedUserExceptMe.length; j++) {
+		await updateDoc(doc(db, 'teamChats', checkedUserPlueMe[i]), {
+			[teamUid + '.userInfo']: {
+				uid: teamUid,
+				displayName: teamChatName,
+			},
+			[teamUid + '.date']: serverTimestamp(),
+		});
+	}
+}
+   
+```
+
+단체 방을 만들 때 단체 이름, 체크된 유저 `uid` 배열과 `uuid` 라이브러리로 팀 채팅방의 고유한 `uid`를 만들어 데이터로 만들어 사용하였습니다.
+팀 채팅방은 초대된 각각의 유저에게 단체방 데이터를 넣어야했는데 단체 채팅방 uid 뿐만 아니라 채팅에 참가한 유저들을 중 본인을 제외한 유저 데이터를 넣어야했습니다. 이를 `filter` 를 사용해 해당 유저의 `uid`를 제외한 배열을 다시 만들어 각각 단체 채팅방 정보에 유저 정보를 넣었습니다. 
+
+</br><br/><br/>
+
 
 ## 폴더 구조
 
