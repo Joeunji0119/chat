@@ -86,11 +86,16 @@ const auth = () => {
 				size='large'
 				css={authLayout}>
 				<SwithAuthModeButton pageMode={pageMode} setPageMode={setPageMode} />
+
 				<main css={formContainer}>
 					{pageMode === 'SignUp' && <UserName />}
 					<UserEmail />
 					<UserPassword />
 					<SummitButton pageMode={pageMode} />
+					<footer css={footer}>
+						스위치를 누르면 {pageMode === 'SignUp' ? '로그인' : '회원가입'}
+						창으로 이동합니다
+					</footer>
 				</main>
 			</Form>
 		</>
@@ -111,4 +116,10 @@ const authLayout = (theme: themeProps) => css`
 const formContainer = css`
 	height: 80%;
 	padding-top: 20%;
+`;
+
+const footer = (theme: themeProps) => css`
+	color: ${theme.grey4};
+	font-size: 10px;
+	text-align: center;
 `;

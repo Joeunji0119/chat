@@ -1,5 +1,3 @@
-// Import the functions you need from the SDKs you need
-// import firebase from 'firebase/compat/app';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
@@ -14,10 +12,6 @@ const firebaseConfig = {
 	appId: '1:278369373781:web:71ef64974e596054f0cedc',
 	measurementId: 'G-3L54MLDERK',
 };
-
-// if (!firebase.apps.length) {
-// 	firebase.initializeApp(firebaseConfig);
-// }
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth();

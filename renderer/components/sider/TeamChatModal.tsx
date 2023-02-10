@@ -38,7 +38,7 @@ const TeamChatModal = ({ setModalToogle }: setModalToogleProps) => {
 	const handleSummit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		if (checkedList.length === 0 || teamChatName === '') {
-			alert('단체방 이름과 채팅 유저 선택은 필수입니다.');
+			return alert('단체방 이름과 채팅 유저 선택은 필수입니다.');
 		}
 
 		const checkedUserPlueMe = [...checkedList, currentUser.uid];

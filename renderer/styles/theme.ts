@@ -6,6 +6,7 @@ const theme: Theme = {
 	grey: '#fafafa',
 	grey2: '#bcbcbd',
 	grey3: '#c9c9c9',
+	grey4: 'grey',
 	blue: '#74acfc',
 	blue2: '#1575fb',
 };
